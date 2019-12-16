@@ -337,24 +337,28 @@ def main() :
             switchesOn = True
             for event in pygame.event.get() :
                 if event.type == KEYUP and event.key == pygame.K_RIGHT and paused != True:
+                    now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(1)
                     started = True
                     if hasEnemy :
                         moveEnemy(0)
                 if event.type == KEYUP and event.key == pygame.K_LEFT and paused != True :
+                    now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(2)
                     started = True
                     if hasEnemy :
                         moveEnemy(0)
                 if event.type == KEYUP and event.key == pygame.K_UP and paused != True:
+                    now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(3)
                     started = True
                     if hasEnemy :
                         moveEnemy(0)
                 if event.type == KEYUP and event.key == pygame.K_DOWN and paused != True:
+                    now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(4)
                     started = True
@@ -883,7 +887,7 @@ def move(direction) :
                 elif whatLevel == 3:
                     won = True
             elif letter == "T":
-                switchesOn = False
+                switchesOn = True
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(1)
@@ -1020,7 +1024,7 @@ def move(direction) :
             elif letter == "V" and points != pointsNeeded :
                 drawHint(6)
             elif letter == "T":
-                switchesOn = False
+                switchesOn = True
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(2)
@@ -1153,7 +1157,7 @@ def move(direction) :
                 elif whatLevel == 3:
                     won = True
             elif letter == "T":
-                switchesOn = False
+                switchesOn = True
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(3)
@@ -1181,7 +1185,7 @@ def move(direction) :
                     won = True
             # stealing block : T
             elif letter == "T":
-                switchesOn = False
+                switchesOn = True
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(4)
