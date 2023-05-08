@@ -10,7 +10,7 @@ from pygame.sprite import *
 
 pygame.init()
 
-#Dimensions
+# Dimensions
 windowWidth = 1000
 windowHeight = 900
 
@@ -19,9 +19,9 @@ enemySetOne = []
 audioOne = pygame.mixer.Sound('audio/floorCreak.wav')
 audioTwo = pygame.mixer.Sound('audio/legoAudio.wav')
 audioMain = pygame.mixer_music.load('audio/blanket.mp3')
-pygame.mixer.init(channels = 2)
+pygame.mixer.init(channels=2)
 
-#Fonts
+# Fonts
 fontObjFifty = pygame.font.Font('fonts/CreamPeach.ttf', 50)
 fontObjForty = pygame.font.Font('fonts/CreamPeach.ttf', 40)
 fontObjThreeNine = pygame.font.Font('fonts/CreamPeach.ttf', 37)
@@ -32,6 +32,7 @@ fontObjThirtyType = pygame.font.Font('fonts/typewriter.ttf', 30)
 SCREEN = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Quiet')
 
+
 class mainCharacter(pygame.sprite.Sprite):
     def __init__(self):
         self.boardX = 0
@@ -39,19 +40,22 @@ class mainCharacter(pygame.sprite.Sprite):
         super().__init__()
         characterImage = pygame.image.load("assets/tempCharacter.png")
         self.image = pygame.Surface((50, 50))
-        self.image = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
+        self.image = pygame.transform.scale(
+            characterImage, (50, 50)).convert_alpha()
         self.rect = self.image.get_rect()
 
     def update(self, centre):
         self.rect.center = centre
 
+
 class catEnemy():
-    global boardX, boardY, image, positionX, positionY, direction, drawing, change
+
     def __init__(self):
         characterImage = pygame.image.load("assets/enemyOne.png")
         self.image = pygame.Surface((50, 50))
-        self.image = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
-        self.setXY(0,0)
+        self.image = pygame.transform.scale(
+            characterImage, (50, 50)).convert_alpha()
+        self.setXY(0, 0)
         self.setDirection(1)
         self.drawing = False
         self.positionX = 0
@@ -99,158 +103,138 @@ class catEnemy():
     def getBoardY(self):
         return self.boardY
 
+
 class Inventory():
-    global redKey, blueKey, greenKey, rainbowKey, waterBoot, iceSkate, allInvent, inventPics, picIndex, socks, flashlight
 
     def __init__(self):
-        self.redKey = False
-        self.blueKey = False
-        self.greenKey = False
-        self.rainbowKey = False
-        self.waterBoot = False
-        self.iceSkate = False
+        self.red_key = False
+        self.blue_key = False
+        self.green_key = False
+        self.water_boot = False
+        self.ice_skate = False
         self.socks = False
         self.flashlight = False
-        self.invNum = 0
-        self.allInvent = []
-        self.inventPics = []
-        self.setImages()
-        self.picIndex = []
+        self.inventory_num = 0
+        self.all_invent = []
+        self.invent_pics = []
+        self.pic_index = []
 
-    def setImages(self):
-        #0
-        image = pygame.image.load("assets/redKey.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #1
-        image = pygame.image.load("assets/toyBox.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #2
-        image = pygame.image.load("assets/socks.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #3
-        image = pygame.image.load("assets/blueKey.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #4
-        image = pygame.image.load("assets/greenKey.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        # 5
-        image = pygame.image.load("assets/socks.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        # 6
-        image = pygame.image.load("assets/flashlight.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
+        self.set_images()
 
-    def getRedKey(self):
-        self.redKey = True
-        self.addItem("redKey", 0)
+    def set_images(self):
+        for value in player_items:
+            image = pygame.image.load(player_items.get(value))
+            image = pygame.transform.scale(image, (50, 50))
+            self.invent_pics.append(image)
 
-    def loseRedKey(self):
-        self.removeItem("redKey", 0)
-        if self.allInvent.count("redKey") == 0 :
-            self.redKey = False
+    def get_red_key(self):
+        self.red_key = True
+        self.add_item("redKey", 0)
 
-    def returnRedKey(self):
-        return self.redKey
+    def lose_red_key(self):
+        self.remove_item("redKey", 0)
+        if self.all_invent.count("redKey") == 0:
+            self.red_key = False
 
-    def getBlueKey(self):
-        self.blueKey = True
-        self.addItem("blueKey", 3)
+    def return_red_key(self):
+        return self.red_key
 
-    def loseBlueKey(self):
-        self.removeItem("blueKey", 3)
-        if self.allInvent.count("blueKey") == 0 :
-            self.blueKey = False
+    def get_blue_key(self):
+        self.blue_key = True
+        self.add_item("blueKey", 3)
 
-    def returnBlueKey(self):
-        return self.blueKey
+    def lose_blue_key(self):
+        self.remove_item("blueKey", 3)
+        if self.all_invent.count("blueKey") == 0:
+            self.blue_key = False
 
-    def getGreenKey(self):
-        self.greenKey = True
-        self.addItem("greenKey", 4)
+    def return_blue_key(self):
+        return self.blue_key
 
-    def loseGreenKey(self):
-        self.removeItem("greenKey", 4)
-        if self.allInvent.count("greenKey") == 0 :
-            self.greenKey = False
+    def get_green_key(self):
+        self.green_key = True
+        self.add_item("greenKey", 4)
 
-    def returnGreenKey(self):
-        return self.greenKey
+    def lose_green_key(self):
+        self.remove_item("greenKey", 4)
+        if self.all_invent.count("greenKey") == 0:
+            self.green_key = False
 
-    def returnWaterBoot(self):
-        return self.waterBoot
+    def return_green_key(self):
+        return self.green_key
 
-    def getWaterBoot(self):
-        self.waterBoot = True
-        self.addItem("waterBoot", 1)
+    def return_water_boot(self):
+        return self.water_boot
 
-    def loseWaterBoot(self):
-        self.waterBoot = False
-        self.removeItem("waterBoot", 1)
+    def get_water_boot(self):
+        self.water_boot = True
+        self.add_item("waterBoot", 1)
 
-    def returnSocks(self):
+    def lose_water_boot(self):
+        self.water_boot = False
+        self.remove_item("waterBoot", 1)
+
+    def return_socks(self):
         return self.socks
 
-    def getSocks(self):
+    def get_socks(self):
         self.socks = True
-        self.addItem("socks", 5)
+        self.add_item("socks", 5)
 
-    def loseSocks(self):
+    def lose_socks(self):
         self.socks = False
-        self.removeItem("socks", 5)
+        self.remove_item("socks", 5)
 
-    def returnSocks(self):
+    def return_socks(self):
         return self.socks
 
-    def getFlashlight(self):
+    def get_flashlight(self):
         self.flashlight = True
-        self.addItem("flashlight", 6)
+        self.add_item("flashlight", 6)
 
-    def loseFlashlight(self):
+    def lose_flashlight(self):
         self.flashlight = False
-        self.removeItem("flashlight", 5)
+        self.remove_item("flashlight", 5)
 
-    def returnFlashlight(self):
+    def return_flashlight(self):
         return self.flashlight
 
-    def getIceSkate(self):
-        self.iceSkate = True
-        self.addItem("iceSkate", 2)
+    def get_ice_skate(self):
+        self.ice_skate = True
+        self.add_item("iceSkate", 2)
 
-    def loseIceSkate(self):
-        self.iceSkate = False
-        self.removeItem("iceSkate", 2)
+    def lose_ice_skate(self):
+        self.ice_skate = False
+        self.remove_item("iceSkate", 2)
 
-    def returnIceSkate(self):
-        return self.iceSkate
+    def return_ice_skate(self):
+        return self.ice_skate
 
-    #Not items
+    # Not items
 
-    def addItem(self, item, index):
-        self.allInvent.append(item)
-        self.picIndex.append(index)
+    def add_item(self, item, index):
+        self.all_invent.append(item)
+        self.pic_index.append(index)
 
-    def removeItem(self, item, index):
-        self.allInvent.remove(item)
-        self.picIndex.remove(index)
+    def remove_item(self, item, index):
+        self.all_invent.remove(item)
+        self.pic_index.remove(index)
 
-    def getItem(self, index):
-        return self.allInvent[index]
+    def get_item(self, index):
+        return self.all_invent[index]
 
-    def returnInventLen(self):
-        return len(self.allInvent)
+    def return_inventory_length(self):
+        return len(self.all_invent)
 
-    def returnPic(self, picPosition):
-        return self.inventPics[self.picIndex[picPosition]]
+    def return_pic(self, picPosition):
+        return self.invent_pics[self.pic_index[picPosition]]
 
-def main() :
-    global invent, dead, points, enemySetOne, switchesOn, started, won, calculatedTime
+
+invent = Inventory()
+
+
+def main():
+
     clock = pygame.time.Clock()
 
     won = False
@@ -266,8 +250,6 @@ def main() :
 
     time_difference = 0
 
-    points = 0
-    invent = Inventory()
     readFile(whatLevel)
     setStart(whatLevel)
     drawScreen()
@@ -275,10 +257,10 @@ def main() :
     started = False
 
     while True:
-        #Game over
+        # Game over
         if dead == True and won == False:
             for event in pygame.event.get():
-                if event.type == MOUSEMOTION :
+                if event.type == MOUSEMOTION:
                     mouseX, mouseY = event.pos
                     if mouseX >= 290 and mouseX <= 370 and mouseY >= 450 and mouseY <= 490:
                         yesDrawing(grey)
@@ -286,13 +268,13 @@ def main() :
                     elif mouseX >= 380 and mouseX <= 460 and mouseY >= 450 and mouseY <= 490:
                         noDrawing(grey)
                         pygame.display.update()
-                    else :
+                    else:
                         yesDrawing(black)
                         noDrawing(black)
                         pygame.display.update()
                 elif event.type == MOUSEBUTTONUP:
                     mouseX, mouseY = event.pos
-                    #Checks if the user clicks to play again and then restarts the game
+                    # Checks if the user clicks to play again and then restarts the game
                     if mouseX >= 290 and mouseX <= 370 and mouseY >= 450 and mouseY <= 490:
                         points = 0
                         invent = Inventory()
@@ -311,27 +293,27 @@ def main() :
 
         elif dead == False and started == False and won == False:
             switchesOn = True
-            for event in pygame.event.get() :
+            for event in pygame.event.get():
                 if event.type == KEYUP and event.key == pygame.K_RIGHT and paused != True:
                     now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(1)
                     started = True
-                    if hasEnemy :
+                    if hasEnemy:
                         moveEnemy(0)
-                if event.type == KEYUP and event.key == pygame.K_LEFT and paused != True :
+                if event.type == KEYUP and event.key == pygame.K_LEFT and paused != True:
                     now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(2)
                     started = True
-                    if hasEnemy :
+                    if hasEnemy:
                         moveEnemy(0)
                 if event.type == KEYUP and event.key == pygame.K_UP and paused != True:
                     now = pygame.time.get_ticks()
                     pygame.mixer_music.play(-1, 0.0)
                     move(3)
                     started = True
-                    if hasEnemy :
+                    if hasEnemy:
                         moveEnemy(0)
                 if event.type == KEYUP and event.key == pygame.K_DOWN and paused != True:
                     now = pygame.time.get_ticks()
@@ -345,17 +327,17 @@ def main() :
                     pygame.quit()
                     sys.exit()
 
-
-        #Gameplay
+        # Gameplay
         elif dead == False and started == True and won == False:
 
             if paused == False:
-                time_difference = calculatedTime - (pygame.time.get_ticks() - now)
+                time_difference = calculatedTime - \
+                    (pygame.time.get_ticks() - now)
 
             for event in pygame.event.get():
                 if event.type == KEYUP and event.key == pygame.K_RIGHT and paused != True:
                     move(1)
-                if event.type == KEYUP and event.key == pygame.K_LEFT and paused != True :
+                if event.type == KEYUP and event.key == pygame.K_LEFT and paused != True:
                     move(2)
                 if event.type == KEYUP and event.key == pygame.K_UP and paused != True:
                     move(3)
@@ -379,15 +361,17 @@ def main() :
 
                     SCREEN.blit(screenTwo, (50, 100))
 
-                    spaceText = fontObjFifty.render("Press 'space' to continue", True, text, None)
-                    SCREEN.blit(spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 100))
+                    spaceText = fontObjFifty.render(
+                        "Press 'space' to continue", True, text, None)
+                    SCREEN.blit(
+                        spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 100))
                     pygame.display.update()
 
                     paused = True
                 if event.type == QUIT or (event.type == KEYUP and event.key == pygame.K_ESCAPE):
                     pygame.quit()
                     sys.exit()
-                if event.type == KEYUP and (event.key not in {pygame.K_SPACE, pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT, pygame.K_LEFT}) :
+                if event.type == KEYUP and (event.key not in {pygame.K_SPACE, pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT, pygame.K_LEFT}):
                     pygame.mixer_music.stop()
                     points = 0
                     invent = Inventory()
@@ -396,10 +380,11 @@ def main() :
                     started = False
                     drawScreen()
                     dead = False
-                if dead :
+                if dead:
                     started = False
             if paused == False:
-                timerText = fontObjThirty.render(str(time_difference / 1000), True, text)
+                timerText = fontObjThirty.render(
+                    str(time_difference / 1000), True, text)
                 pygame.draw.rect(SCREEN, line, (840, 200, 140, 40))
                 SCREEN.blit(timerText, (840, 200))
                 if time_difference % 3 == 0 and hasEnemy:
@@ -411,13 +396,14 @@ def main() :
                     youDied()
         elif won == True:
             finalLevel()
-            for event in pygame.event.get() :
+            for event in pygame.event.get():
                 if event.type == QUIT or (event.type == KEYUP and event.key == pygame.K_ESCAPE):
                     pygame.quit()
                     sys.exit()
 
+
 def nextLevel():
-    global started, points, invent, dead, runBefore
+
     pygame.mixer_music.stop()
     points = 0
     invent = Inventory()
@@ -428,8 +414,9 @@ def nextLevel():
     started = False
     pygame.display.update()
 
+
 def youDied():
-    global dead
+
     pygame.mixer_music.stop()
     dead = True
     screenTwo = pygame.Surface((650, 650))
@@ -438,16 +425,19 @@ def youDied():
 
     SCREEN.blit(screenTwo, (50, 100))
 
-    spaceText = fontObjFifty.render("You were caught. Try again?", True, text, None)
-    SCREEN.blit(spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 50))
+    spaceText = fontObjFifty.render(
+        "You were caught. Try again?", True, text, None)
+    SCREEN.blit(
+        spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 50))
 
     yesDrawing(black)
     noDrawing(black)
 
     pygame.display.update()
 
-def finalLevel() :
-    global goneThroughWin
+
+def finalLevel():
+
     goneThroughWin = 0
     if goneThroughWin == 0:
         global won
@@ -459,16 +449,21 @@ def finalLevel() :
 
         SCREEN.blit(screenTwo, (50, 100))
 
-        spaceText = fontObjFifty.render("You have beat the game!", True, text, None)
-        SCREEN.blit(spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 50))
+        spaceText = fontObjFifty.render(
+            "You have beat the game!", True, text, None)
+        SCREEN.blit(
+            spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 50))
 
-        spaceText = fontObjFifty.render("Press escape to quit.", True, text, None)
-        SCREEN.blit(spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 100))
+        spaceText = fontObjFifty.render(
+            "Press escape to quit.", True, text, None)
+        SCREEN.blit(
+            spaceText, ((650 - spaceText.get_width()) / 2 + 50, (650 / 2) + 100))
 
         pygame.display.update()
         goneThroughWin += 1
 
-def yesDrawing(buttonColour) :
+
+def yesDrawing(buttonColour):
     # Create a bordered yes and no box
     pygame.draw.rect(SCREEN, grey, (289, 449, 82, 42))
     pygame.draw.rect(SCREEN, buttonColour, (290, 450, 80, 40))
@@ -479,7 +474,8 @@ def yesDrawing(buttonColour) :
     yesTextSurface.center = (330, 470)
     SCREEN.blit(yesText, yesTextSurface)
 
-def noDrawing(buttonColour) :
+
+def noDrawing(buttonColour):
     # Create a bordered yes and no box
     pygame.draw.rect(SCREEN, grey, (379, 449, 82, 42))
     pygame.draw.rect(SCREEN, buttonColour, (380, 450, 80, 40))
@@ -489,47 +485,48 @@ def noDrawing(buttonColour) :
     noTextSurface.center = (420, 470)
     SCREEN.blit(noText, noTextSurface)
 
-def readFile(levelOn):
-    global runBefore, level
 
-    if whatLevel == 1 :
+def readFile(levelOn):
+    global runBefore
+
+    if whatLevel == 1:
         levelOne = open('levels/LevelOne.txt')
 
-        if runBefore == False :
-            for line in levelOne :
+        if runBefore == False:
+            for line in levelOne:
                 level.append(line.rstrip().split(' '))
 
             runBefore = True
-        else :
+        else:
             counter = 0
-            for line in levelOne :
+            for line in levelOne:
                 level[counter] = line.rstrip().split(' ')
                 counter += 1
 
-    if whatLevel == 2 :
+    if whatLevel == 2:
         levelTwo = open('levels/LevelTwo.txt')
 
         counter = 0
-        for line in levelTwo :
-            if counter < len(level) :
+        for line in levelTwo:
+            if counter < len(level):
                 level[counter] = line.rstrip().split(' ')
-            else :
+            else:
                 level.append(line.rstrip().split(' '))
             counter += 1
 
-    if whatLevel == 3 :
+    if whatLevel == 3:
         levelThree = open('levels/LevelThree.txt')
 
         counter = 0
-        for line in levelThree :
-            if counter < len(level) :
+        for line in levelThree:
+            if counter < len(level):
                 level[counter] = line.rstrip().split(' ')
-            else :
+            else:
                 level.append(line.rstrip().split(' '))
             counter += 1
 
+
 def setStart(levelNum):
-    global savedX, savedY, pointsNeeded, calculatedTime, now
 
     if levelNum == 1:
         savedX = 9
@@ -553,14 +550,13 @@ def setStart(levelNum):
         now = pygame.time.get_ticks()
         calculatedTime = 600000
 
-#1 : cat enemy
+
 def setEnemy(enemyNum):
-    global originalEnemyX, originalEnemyY, enemySavedX, enemySavedY, hasEnemy
     counter = 0
-    if enemyNum == 0 :
+    if enemyNum == 0:
         for i in range(0, len(level), 1):
             for j in range(0, len(level[i]), 1):
-                if level[i][j] == "E" :
+                if level[i][j] == "E":
                     counter += 1
                     enemySetOne[enemyNum].setBoardPosition(j, i)
                     #level[i][j] = "G"
@@ -571,32 +567,35 @@ def setEnemy(enemyNum):
             print(str(len(enemySetOne)))
             hasEnemy = True
 
-def drawCharacter() :
+
+def drawCharacter():
     character.draw(SCREEN)
     pygame.display.update()
 
-def moveEnemy(enemyNum) :
+
+def moveEnemy(enemyNum):
     enemyDirection(enemyNum)
     enemyPosition(enemyNum)
     drawEnemy(enemyNum)
-    if enemySetOne[enemyNum].getBoardX() == savedX + 6 and enemySetOne[enemyNum].getBoardY() == savedY + 6 :
+    if enemySetOne[enemyNum].getBoardX() == savedX + 6 and enemySetOne[enemyNum].getBoardY() == savedY + 6:
         youDied()
 
-#1 = right, 2 = left, 3 = up, 4 = down
-def drawEnemy(enemyNum) :
-    global enemySavedX, enemySavedY
-    ###Calculate method
+# 1 = right, 2 = left, 3 = up, 4 = down
+
+
+def drawEnemy(enemyNum):
+    # Calculate method
     enemyX = enemySetOne[enemyNum].getBoardX()
     enemyY = enemySetOne[enemyNum].getBoardY()
 
     tempX = enemyX - savedX
     tempY = enemyY - savedY
 
-    if ((tempX >= 1 and tempX <= 11) and (tempY >= 1 and tempY <= 11)) and enemySetOne[enemyNum].getDrawing() != True :
+    if ((tempX >= 1 and tempX <= 11) and (tempY >= 1 and tempY <= 11)) and enemySetOne[enemyNum].getDrawing() != True:
         enemySetOne[enemyNum].setDrawing(True)
-    elif tempX < 0 or tempY < 1 :
+    elif tempX < 0 or tempY < 1:
         enemySetOne[enemyNum].setDrawing(False)
-    elif tempX > 11 or tempY > 11 or ((tempX >= 11 or tempX <= 1) and enemySetOne[enemyNum].getPositionX() > 1) or ((tempY >= 11 or tempY <= 1) and enemySetOne[enemyNum].getPositionY() > 1) :
+    elif tempX > 11 or tempY > 11 or ((tempX >= 11 or tempX <= 1) and enemySetOne[enemyNum].getPositionX() > 1) or ((tempY >= 11 or tempY <= 1) and enemySetOne[enemyNum].getPositionY() > 1):
         enemySetOne[enemyNum].setDrawing(False)
     ###
 
@@ -605,14 +604,15 @@ def drawEnemy(enemyNum) :
     originalX = enemyX - savedX
     originalY = enemyY - savedY
 
-    if enemySetOne[enemyNum].getDrawing() :
-        if direction == 1 :
+    if enemySetOne[enemyNum].getDrawing():
+        if direction == 1:
             drawBlock(originalX, originalY)
-            if enemyX != 12 :
+            if enemyX != 12:
                 drawBlock(originalX + 1, originalY)
-            if enemyX != 0 :
+            if enemyX != 0:
                 drawBlock(originalX - 1, originalY)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (enemySetOne[enemyNum].getPositionX() + 50 + ((enemyX - savedX) * 50), enemySetOne[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemySetOne[enemyNum].getImage(), (enemySetOne[enemyNum].getPositionX(
+            ) + 50 + ((enemyX - savedX) * 50), enemySetOne[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
 
         elif direction == 2:
             drawBlock(originalX, originalY)
@@ -620,8 +620,8 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX + 1, originalY)
             if enemyX != 0:
                 drawBlock(originalX - 1, originalY)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 - enemySetOne[enemyNum].getPositionX() + ((enemyX - savedX) * 50), enemySetOne[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
-
+            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 - enemySetOne[enemyNum].getPositionX() + (
+                (enemyX - savedX) * 50), enemySetOne[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
 
         elif direction == 3:
             drawBlock(originalX, originalY)
@@ -629,7 +629,8 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX, originalY + 1)
             if enemyY != 0:
                 drawBlock(originalX, originalY - 1)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 + enemySetOne[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 - enemySetOne[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 + enemySetOne[enemyNum].getPositionX() + (
+                (enemyX - savedX) * 50), 100 - enemySetOne[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
 
         elif direction == 4:
             drawBlock(originalX, originalY)
@@ -637,33 +638,34 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX, originalY + 1)
             if enemyY != 0:
                 drawBlock(originalX, originalY - 1)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 + enemySetOne[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 + enemySetOne[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 + enemySetOne[enemyNum].getPositionX() + (
+                (enemyX - savedX) * 50), 100 + enemySetOne[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
 
         enemySavedX = originalX
         enemySavedY = originalY
 
         pygame.display.update()
 
-def enemyDirection(enemyNum) :
-    if enemySetOne[enemyNum].getChange() == True :
+
+def enemyDirection(enemyNum):
+    if enemySetOne[enemyNum].getChange() == True:
         enemySetOne[enemyNum].changeDirection(False)
 
         enemyX = enemySetOne[enemyNum].getBoardX()
         enemyY = enemySetOne[enemyNum].getBoardY()
 
-
-        if savedX + 6 > enemyX :
-            if level[enemyY][enemyX + 1] == "G" :
+        if savedX + 6 > enemyX:
+            if level[enemyY][enemyX + 1] == "G":
                 enemySetOne[enemyNum].setDirection(1)
-            elif savedY + 6 < enemyY :
-                if level[enemyY - 1][enemyX] == "G" :
+            elif savedY + 6 < enemyY:
+                if level[enemyY - 1][enemyX] == "G":
                     enemySetOne[enemyNum].setDirection(3)
             elif savedY + 6 < enemyY:
-                if level[enemyY + 1][enemyX] == "G" :
+                if level[enemyY + 1][enemyX] == "G":
                     enemySetOne[enemyNum].setDirection(4)
-            elif level[enemyY][enemyX - 1] == "G" :
+            elif level[enemyY][enemyX - 1] == "G":
                 enemySetOne[enemyNum].setDirection(2)
-        elif savedX + 6 < enemyX :
+        elif savedX + 6 < enemyX:
             if level[enemyY][enemyX - 1] == "G":
                 enemySetOne[enemyNum].setDirection(2)
             elif savedY + 6 < enemyY:
@@ -674,7 +676,7 @@ def enemyDirection(enemyNum) :
                     enemySetOne[enemyNum].setDirection(4)
             elif level[enemyY][enemyX + 1] == "G":
                 enemySetOne[enemyNum].setDirection(1)
-        elif savedY + 6 < enemyY :
+        elif savedY + 6 < enemyY:
             if level[enemyY - 1][enemyX] == "G":
                 enemySetOne[enemyNum].setDirection(3)
             elif level[enemyY][enemyX - 1] == "G":
@@ -683,7 +685,7 @@ def enemyDirection(enemyNum) :
                 enemySetOne[enemyNum].setDirection(1)
             elif level[enemyY + 1][enemyX] == "G":
                 enemySetOne[enemyNum].setDirection(4)
-        elif savedY + 6 > enemyY :
+        elif savedY + 6 > enemyY:
             if level[enemyY + 1][enemyX] == "G":
                 enemySetOne[enemyNum].setDirection(4)
             elif level[enemyY][enemyX - 1] == "G":
@@ -693,169 +695,173 @@ def enemyDirection(enemyNum) :
             elif level[enemyY - 1][enemyX] == "G":
                 enemySetOne[enemyNum].setDirection(3)
 
+
 def enemyPosition(enemyNum):
-    global dead
     enemyX = enemySetOne[enemyNum].getBoardX()
     enemyY = enemySetOne[enemyNum].getBoardY()
 
     posX = enemySetOne[enemyNum].getPositionX()
     posY = enemySetOne[enemyNum].getPositionY()
 
-
-    if enemySetOne[enemyNum].getDirection() == 1 :
+    if enemySetOne[enemyNum].getDirection() == 1:
         enemySetOne[enemyNum].setXY(posX + 1, posY)
 
-        if enemySetOne[enemyNum].getPositionX() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX() + 1, enemySetOne[enemyNum].getBoardY())
+        if enemySetOne[enemyNum].getPositionX() == 50:
+            enemySetOne[enemyNum].setBoardPosition(
+                enemySetOne[enemyNum].getBoardX() + 1, enemySetOne[enemyNum].getBoardY())
             enemySetOne[enemyNum].setXY(0, 0)
             enemySetOne[enemyNum].changeDirection(True)
 
-    elif enemySetOne[enemyNum].getDirection() == 2 :
+    elif enemySetOne[enemyNum].getDirection() == 2:
         enemySetOne[enemyNum].setXY(posX + 1, posY)
 
-        if enemySetOne[enemyNum].getPositionX() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX() - 1, enemySetOne[enemyNum].getBoardY())
+        if enemySetOne[enemyNum].getPositionX() == 50:
+            enemySetOne[enemyNum].setBoardPosition(
+                enemySetOne[enemyNum].getBoardX() - 1, enemySetOne[enemyNum].getBoardY())
             enemySetOne[enemyNum].setXY(0, 0)
             enemySetOne[enemyNum].changeDirection(True)
 
-    elif enemySetOne[enemyNum].getDirection() == 3 :
+    elif enemySetOne[enemyNum].getDirection() == 3:
         enemySetOne[enemyNum].setXY(posX, posY + 1)
 
-        if enemySetOne[enemyNum].getPositionY() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX(), enemySetOne[enemyNum].getBoardY() - 1)
+        if enemySetOne[enemyNum].getPositionY() == 50:
+            enemySetOne[enemyNum].setBoardPosition(
+                enemySetOne[enemyNum].getBoardX(), enemySetOne[enemyNum].getBoardY() - 1)
             enemySetOne[enemyNum].setXY(0, 0)
             enemySetOne[enemyNum].changeDirection(True)
 
-    elif enemySetOne[enemyNum].getDirection() == 4 :
+    elif enemySetOne[enemyNum].getDirection() == 4:
         enemySetOne[enemyNum].setXY(posX, posY + 1)
 
-        if enemySetOne[enemyNum].getPositionY() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX(), enemySetOne[enemyNum].getBoardY() + 1)
+        if enemySetOne[enemyNum].getPositionY() == 50:
+            enemySetOne[enemyNum].setBoardPosition(
+                enemySetOne[enemyNum].getBoardX(), enemySetOne[enemyNum].getBoardY() + 1)
             enemySetOne[enemyNum].setXY(0, 0)
             enemySetOne[enemyNum].changeDirection(True)
 
-#1 = right, 2 = left, 3 = up, 4 = down
-def move(direction) :
-    global savedX, savedY, dead, points, switchesOn, whatLevel, invent, won
+# 1 = right, 2 = left, 3 = up, 4 = down
+
+
+def move(direction):
     endGame = False
-    if direction == 1 :
-        if savedX + 13 < len(level[0]) :
-            letter = level [savedY + 6][savedX + 7]
+    if direction == 1:
+        if savedX + 13 < len(level[0]):
+            letter = level[savedY + 6][savedX + 7]
             #ground : G
-            if letter == "G" :
+            if letter == "G":
                 moveCharacter(1)
             #f : switch
-            elif letter == "f" :
+            elif letter == "f":
                 moveCharacter(1)
                 switchesOn = not switchesOn
-            #Move up : w
-            elif letter == "q" :
+            # Move up : w
+            elif letter == "q":
                 moveCharacter(1)
-                if switchesOn :
+                if switchesOn:
                     move(3)
-            #Move right : d
-            elif letter == "d" :
+            # Move right : d
+            elif letter == "d":
                 moveCharacter(1)
                 if switchesOn:
                     move(1)
-            #Move down : s
-            elif letter == "s" :
+            # Move down : s
+            elif letter == "s":
                 moveCharacter(1)
                 if switchesOn:
                     move(4)
-            #Move left : a
-            elif letter == "a" :
+            # Move left : a
+            elif letter == "a":
                 moveCharacter(1)
                 if switchesOn:
                     move(2)
-            #hints : #
-            elif letter in {"1", "2", "3", "4", "5", "6"} :
+            # hints : #
+            elif letter in {"1", "2", "3", "4", "5", "6"}:
                 moveCharacter(1)
                 drawHint(letter)
             #redKey : r
-            elif letter == "r" :
+            elif letter == "r":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(1)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key():
                 level[savedY + 6][savedX + 7] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(1)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(1)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 6][savedX + 7] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(1)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(1)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 6][savedX + 7] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(1)
-            #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            # squeaky floor : J : no socks
+            elif letter == "J" and invent.return_socks() == False:
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(1)
                 pygame.mixer_music.stop()
                 time.sleep(2.5)
                 endGame = True
-            #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            # squeaky floor : J : with socks
+            elif letter == "J" and invent.return_socks():
                 moveCharacter(1)
             #waterBoots : j
-            elif letter == "j" :
+            elif letter == "j":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(1)
-            #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            # water : W : no boots
+            elif letter == "W" and invent.return_water_boot() == False:
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(1)
                 pygame.mixer_music.stop()
                 time.sleep(2.75)
                 endGame = True
-            #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            # water : W : with boots
+            elif letter == "W" and invent.return_water_boot():
                 level[savedY + 6][savedX + 7] = "G"
                 moveCharacter(1)
             #waterBoots : w
-            elif letter == "w" :
+            elif letter == "w":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(1)
             # flashlight : F
             elif letter == "F":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(1)
-            #ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False :
+            # ice : I : no skates
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(1)
                 move(1)
-            #ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate() :
+            # ice : I : with skates
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(1)
             #iceSkates : i
-            elif letter == "i" :
+            elif letter == "i":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(1)
             # cookies : c
             elif letter == "c":
                 level[savedY + 6][savedX + 7] = "G"
                 points += 1
                 moveCharacter(1)
-            elif letter == "V" and points == pointsNeeded :
+            elif letter == "V" and points == pointsNeeded:
                 moveCharacter(1)
                 if whatLevel != 3:
                     whatLevel += 1
@@ -868,37 +874,37 @@ def move(direction) :
                 drawInventory()
                 moveCharacter(1)
             # end door without points : V
-            elif letter == "V" and points != pointsNeeded :
+            elif letter == "V" and points != pointsNeeded:
                 drawHint(6)
-    elif direction == 2 :
-        if savedX > 0 :
+    elif direction == 2:
+        if savedX > 0:
             letter = level[savedY + 6][savedX + 5]
             #ground : G
-            if letter == "G" :
+            if letter == "G":
                 moveCharacter(2)
             # flashlight : F
             elif letter == "F":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(2)
-            #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            # squeaky floor : J : no socks
+            elif letter == "J" and invent.return_socks() == False:
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(2)
                 pygame.mixer_music.stop()
                 time.sleep(2.5)
                 endGame = True
                 moveCharacter(2)
-            #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            # squeaky floor : J : with socks
+            elif letter == "J" and invent.return_socks():
                 moveCharacter(2)
             #waterBoots : j
-            elif letter == "j" :
+            elif letter == "j":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(2)
             #f : switch
-            elif letter == "f" :
+            elif letter == "f":
                 moveCharacter(2)
                 switchesOn = not switchesOn
             # Move up : w
@@ -922,66 +928,66 @@ def move(direction) :
                 if switchesOn:
                     move(2)
             # hints : #
-            elif letter in {"1", "2", "3", "4", "5", "6"} :
+            elif letter in {"1", "2", "3", "4", "5", "6"}:
                 moveCharacter(2)
                 drawHint(letter)
             #redKey : r
-            elif letter == "r" :
+            elif letter == "r":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(2)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key():
                 level[savedY + 6][savedX + 5] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(2)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(2)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 6][savedX + 5] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(2)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(2)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 6][savedX + 5] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(2)
-            #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            # water : W : with boots
+            elif letter == "W" and invent.return_water_boot():
                 level[savedY + 6][savedX + 5] = "G"
                 moveCharacter(2)
-            #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            # water : W : no boots
+            elif letter == "W" and invent.return_water_boot() == False:
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(2)
                 pygame.mixer_music.stop()
                 time.sleep(2.75)
                 endGame = True
             #waterBoots : w
-            elif letter == "w" :
+            elif letter == "w":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(2)
             # ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False:
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(2)
                 move(2)
             # ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate():
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(2)
             # iceSkates : i
             elif letter == "i":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(2)
             # cookies : c
             elif letter == "c":
@@ -989,7 +995,7 @@ def move(direction) :
                 points += 1
                 moveCharacter(2)
             # end door with points : V
-            elif letter == "V" and points == pointsNeeded :
+            elif letter == "V" and points == pointsNeeded:
                 moveCharacter(2)
                 if whatLevel != 3:
                     whatLevel += 1
@@ -997,18 +1003,18 @@ def move(direction) :
                 elif level == 3:
                     won = True
             # end door without points : V
-            elif letter == "V" and points != pointsNeeded :
+            elif letter == "V" and points != pointsNeeded:
                 drawHint(6)
             elif letter == "T":
                 switchesOn = True
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(2)
-    elif direction == 3 :
-        if savedY > 0 :
+    elif direction == 3:
+        if savedY > 0:
             letter = level[savedY + 5][savedX + 6]
             #ground : G
-            if letter == "G" :
+            if letter == "G":
                 moveCharacter(3)
             # end door without points : V
             elif letter == "V" and points != pointsNeeded:
@@ -1016,26 +1022,26 @@ def move(direction) :
             # flashlight : F
             elif letter == "F":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(3)
-            #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            # squeaky floor : J : no socks
+            elif letter == "J" and invent.return_socks() == False:
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(3)
                 pygame.mixer_music.stop()
                 time.sleep(2.5)
                 endGame = True
                 moveCharacter(3)
-            #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            # squeaky floor : J : with socks
+            elif letter == "J" and invent.return_socks():
                 moveCharacter(3)
             #waterBoots : j
-            elif letter == "j" :
+            elif letter == "j":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(3)
             #f : switch
-            elif letter == "f" :
+            elif letter == "f":
                 moveCharacter(3)
                 switchesOn = not switchesOn
             # Move up : w
@@ -1059,73 +1065,73 @@ def move(direction) :
                 if switchesOn:
                     move(2)
             # hints : #
-            elif letter in {"1", "2", "3", "4", "5", "6"} :
+            elif letter in {"1", "2", "3", "4", "5", "6"}:
                 moveCharacter(3)
                 drawHint(letter)
             #redKey : r
-            elif letter == "r" :
+            elif letter == "r":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(3)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key():
                 level[savedY + 5][savedX + 6] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(3)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(3)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 5][savedX + 6] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(3)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(3)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 5][savedX + 6] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(3)
-            #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            # water : W : with boots
+            elif letter == "W" and invent.return_water_boot():
                 level[savedY + 5][savedX + 6] = "G"
                 moveCharacter(3)
-            #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            # water : W : no boots
+            elif letter == "W" and invent.return_water_boot() == False:
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(3)
                 pygame.mixer_music.stop()
                 time.sleep(2.75)
                 endGame = True
             #waterBoots : w
-            elif letter == "w" :
+            elif letter == "w":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(3)
             # ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False:
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(3)
                 move(3)
             # ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate():
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(3)
             # iceSkates : i
             elif letter == "i":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(3)
             # cookies : c
             elif letter == "c":
                 level[savedY + 5][savedX + 6] = "G"
                 points += 1
                 moveCharacter(3)
-            elif letter == "V" and points == pointsNeeded :
+            elif letter == "V" and points == pointsNeeded:
                 moveCharacter(3)
                 if whatLevel != 3:
                     whatLevel += 1
@@ -1137,21 +1143,21 @@ def move(direction) :
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(3)
-    elif direction == 4 :
-        if savedY + 13 < len(level) :
+    elif direction == 4:
+        if savedY + 13 < len(level):
             letter = level[savedY + 7][savedX + 6]
             #ground : G
-            if letter == "G" :
+            if letter == "G":
                 moveCharacter(4)
             # end door without points : V
-            elif letter == "V" and points != pointsNeeded :
+            elif letter == "V" and points != pointsNeeded:
                 drawHint(6)
             # flashlight : F
             elif letter == "F":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(4)
-            elif letter == "V" and points == pointsNeeded :
+            elif letter == "V" and points == pointsNeeded:
                 moveCharacter(4)
                 print(str(whatLevel))
                 if whatLevel != 3:
@@ -1165,24 +1171,24 @@ def move(direction) :
                 invent = Inventory()
                 drawInventory()
                 moveCharacter(4)
-            #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            # squeaky floor : J : no socks
+            elif letter == "J" and invent.return_socks() == False:
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(4)
                 pygame.mixer_music.stop()
                 time.sleep(2.5)
                 endGame = True
                 moveCharacter(4)
-            #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            # squeaky floor : J : with socks
+            elif letter == "J" and invent.return_socks():
                 moveCharacter(4)
             #waterBoots : j
-            elif letter == "j" :
+            elif letter == "j":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(4)
             #f : switch
-            elif letter == "f" :
+            elif letter == "f":
                 moveCharacter(4)
                 switchesOn = not switchesOn
             # Move up : w
@@ -1206,70 +1212,70 @@ def move(direction) :
                 if switchesOn:
                     move(2)
             # hints : #
-            elif letter in {"1", "2", "3", "4", "5", "6"} :
+            elif letter in {"1", "2", "3", "4", "5", "6"}:
                 moveCharacter(4)
                 drawHint(letter)
             #redKey : r
-            elif letter == "r" :
+            elif letter == "r":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(4)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key():
                 level[savedY + 7][savedX + 6] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(4)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(4)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 7][savedX + 6] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(4)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(4)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 7][savedX + 6] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(4)
-            #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            # water : W : with boots
+            elif letter == "W" and invent.return_water_boot():
                 level[savedY + 7][savedX + 6] = "G"
                 moveCharacter(4)
-            #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            # water : W : no boots
+            elif letter == "W" and invent.return_water_boot() == False:
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(4)
                 pygame.mixer_music.stop()
                 time.sleep(2.75)
                 endGame = True
             #waterBoots : w
-            elif letter == "w" :
+            elif letter == "w":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(4)
-            #ice : I : no skates
-            elif letter == "I" :
+            # ice : I : no skates
+            elif letter == "I":
                 moveCharacter(4)
                 move(4)
             # ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False:
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(4)
                 move(4)
             # ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate():
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(4)
             # iceSkates : i
             elif letter == "i":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(4)
             # cookies : c
             elif letter == "c":
@@ -1277,65 +1283,81 @@ def move(direction) :
                 points += 1
                 moveCharacter(4)
 
-    if endGame == True :
+    if endGame == True:
         youDied()
+
 
 def drawHint(hintNum):
     pygame.draw.rect(SCREEN, white, ((149, 149, 452, 202)))
     pygame.draw.rect(SCREEN, black, ((150, 150, 450, 200)))
 
-    #legos hint
+    # legos hint
     if hintNum == "1":
-        hintText = fontObjThirtyType.render("The lego blocks can be", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "The lego blocks can be", True, text, None)
         SCREEN.blit(hintText, (160, 160))
-        hintText = fontObjThirtyType.render("passed when the legos are", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "passed when the legos are", True, text, None)
         SCREEN.blit(hintText, (160, 200))
         hintText = fontObjThirtyType.render("in a toy box", True, text, None)
         SCREEN.blit(hintText, (160, 240))
-    #Switches hint
+    # Switches hint
     if hintNum == "2":
-        hintText = fontObjThirtyType.render("Switches turn the", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "Switches turn the", True, text, None)
         SCREEN.blit(hintText, (160, 160))
-        hintText = fontObjThirtyType.render("directional floors off", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "directional floors off", True, text, None)
         SCREEN.blit(hintText, (160, 200))
         hintText = fontObjThirtyType.render("and on.", True, text, None)
         SCREEN.blit(hintText, (160, 240))
-    #Squeaky floor hint
+    # Squeaky floor hint
     if hintNum == "3":
-        hintText = fontObjThirtyType.render("You need socks to be", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "You need socks to be", True, text, None)
         SCREEN.blit(hintText, (160, 160))
-        hintText = fontObjThirtyType.render("quiet on the squeaky", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "quiet on the squeaky", True, text, None)
         SCREEN.blit(hintText, (160, 200))
         hintText = fontObjThirtyType.render("floors.", True, text, None)
         SCREEN.blit(hintText, (160, 240))
     # really bad hint
     if hintNum == "4":
-        hintText = fontObjThirtyType.render("You are near the end. Press", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "You are near the end. Press", True, text, None)
         SCREEN.blit(hintText, (160, 160))
-        hintText = fontObjThirtyType.render("G to go through the final", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "G to go through the final", True, text, None)
         SCREEN.blit(hintText, (160, 200))
         hintText = fontObjThirtyType.render("door.", True, text, None)
         SCREEN.blit(hintText, (160, 240))
     # only helpful hint
     if hintNum == "5":
-        hintText = fontObjThirtyType.render("You are near the end. If", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "You are near the end. If", True, text, None)
         SCREEN.blit(hintText, (160, 160))
-        hintText = fontObjThirtyType.render("you press any buttons but", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "you press any buttons but", True, text, None)
         SCREEN.blit(hintText, (160, 200))
-        hintText = fontObjThirtyType.render("the space and arrow keys,", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "the space and arrow keys,", True, text, None)
         SCREEN.blit(hintText, (160, 240))
-        hintText = fontObjThirtyType.render("You will restart the level.", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "You will restart the level.", True, text, None)
         SCREEN.blit(hintText, (160, 280))
 
     # only helpful hint
     if hintNum == 6:
         print("here")
-        hintText = fontObjThirtyType.render("You still have to find", True, text, None)
+        hintText = fontObjThirtyType.render(
+            "You still have to find", True, text, None)
         SCREEN.blit(hintText, (160, 160))
-        hintText = fontObjThirtyType.render(str(pointsNeeded - points) + " cookies.", True, text, None)
+        hintText = fontObjThirtyType.render(
+            str(pointsNeeded - points) + " cookies.", True, text, None)
         SCREEN.blit(hintText, (160, 200))
 
     pygame.display.update()
+
 
 def moveCharacter(direction):
     global savedX, savedY
@@ -1368,15 +1390,16 @@ def moveCharacter(direction):
                 drawBlock(i, j)
         drawScore()
         drawCharacter()
-    if hasEnemy :
+    if hasEnemy:
         drawEnemy(0)
 
-def drawBlock(x, y) :
+
+def drawBlock(x, y):
     j = y
     i = x
     testingY = j + savedY
     testingX = i + savedX
-    if (testingY <= 25 or testingY >= 69) or ((j in {5, 6, 7}) and (i in {5, 6, 7}) and invent.returnFlashlight() == True) :
+    if (testingY <= 25 or testingY >= 69) or ((j in {5, 6, 7}) and (i in {5, 6, 7}) and invent.return_flashlight() == True):
         if level[j + savedY][i + savedX] == "G":
             ground = pygame.image.load("assets/groundTwo.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
@@ -1387,12 +1410,12 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # end door : V
-        if level[j + savedY][i + savedX] == "V" :
+        if level[j + savedY][i + savedX] == "V":
             ground = pygame.image.load("assets/endDoor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # squeaky floor : J
-        if level[j + savedY][i + savedX] == "J" :
+        if level[j + savedY][i + savedX] == "J":
             ground = pygame.image.load("assets/squeakySteps.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
@@ -1402,17 +1425,20 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             keyImage = pygame.image.load("assets/socks.png")
-            keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
+            keyImage = pygame.transform.scale(
+                keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # switch : f
         if level[j + savedY][i + savedX] == "f":
-            if switchesOn :
+            if switchesOn:
                 ground = pygame.image.load("assets/switchOn.png")
-                ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
+                ground = pygame.transform.scale(
+                    ground, (50, 50)).convert_alpha()
                 SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            else :
+            else:
                 ground = pygame.image.load("assets/switchOff.png")
-                ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
+                ground = pygame.transform.scale(
+                    ground, (50, 50)).convert_alpha()
                 SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # right : d
         if level[j + savedY][i + savedX] == "d":
@@ -1435,7 +1461,7 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # hint : 1, 2, 3, 4, etc.
-        if level[j + savedY][i + savedX] in {"1", "2", "3", "4", "5", "6"} :
+        if level[j + savedY][i + savedX] in {"1", "2", "3", "4", "5", "6"}:
             ground = pygame.image.load("assets/hintBlock.png").convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # enemy : E
@@ -1444,7 +1470,8 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             characterImage = pygame.image.load("assets/enemyOne.png")
-            updateImage = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
+            updateImage = pygame.transform.scale(
+                characterImage, (50, 50)).convert_alpha()
             SCREEN.blit(updateImage, (50 + (i * 50), 100 + (j * 50)))
             level[j + savedY][i + savedX] = "G"
         # wall : n
@@ -1458,7 +1485,7 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # blueDoor : B
-        if level[j + savedY][i + savedX] == "B" :
+        if level[j + savedY][i + savedX] == "B":
             ground = pygame.image.load("assets/blueDoor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
@@ -1473,7 +1500,8 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             keyImage = pygame.image.load("assets/redKey.png")
-            keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
+            keyImage = pygame.transform.scale(
+                keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # blueKey : b
         if level[j + savedY][i + savedX] == "b":
@@ -1481,7 +1509,8 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             keyImage = pygame.image.load("assets/blueKey.png")
-            keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
+            keyImage = pygame.transform.scale(
+                keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # greenKey : g
         if level[j + savedY][i + savedX] == "g":
@@ -1489,7 +1518,8 @@ def drawBlock(x, y) :
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             keyImage = pygame.image.load("assets/greenKey.png")
-            keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
+            keyImage = pygame.transform.scale(
+                keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # legos : W
         if level[j + savedY][i + savedX] == "W":
@@ -1542,12 +1572,14 @@ def drawBlock(x, y) :
             image = pygame.transform.scale(image, (50, 50)).convert_alpha()
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
 
-        if hasEnemy :
-            if j + savedY == enemySetOne[0].getBoardY() - savedY and i + savedX == enemySetOne[0].getBoardX() - savedX :
+        if hasEnemy:
+            if j + savedY == enemySetOne[0].getBoardY() - savedY and i + savedX == enemySetOne[0].getBoardX() - savedX:
                 moveEnemy(0)
 
-    else :
-        pygame.draw.rect(SCREEN, black, (50 + (i * 50), 100 + (j * 50), 50, 50))
+    else:
+        pygame.draw.rect(
+            SCREEN, black, (50 + (i * 50), 100 + (j * 50), 50, 50))
+
 
 def drawScreen():
     drawBackground()
@@ -1566,7 +1598,8 @@ def drawScreen():
     centreX = nameText.get_width()
     SCREEN.blit(nameText, (870 - (centreX / 2), 130))
 
-    timerText = fontObjTwenty.render("Level " + str(whatLevel), True, text, None)
+    timerText = fontObjTwenty.render(
+        "Level " + str(whatLevel), True, text, None)
     SCREEN.blit(timerText, (900, 170))
 
     timerText = fontObjThirty.render("Time : ", True, text, None)
@@ -1581,12 +1614,13 @@ def drawScreen():
     drawInventory()
     drawScore()
 
-    for i in range(0, 13, 1) :
-        for j in range(0, 13, 1) :
+    for i in range(0, 13, 1):
+        for j in range(0, 13, 1):
             drawBlock(i, j)
     drawCharacter()
 
     pygame.display.update()
+
 
 def drawInventory():
     pygame.draw.rect(SCREEN, lineDark, (763, 398, 204, 104))
@@ -1600,36 +1634,39 @@ def drawInventory():
     pygame.draw.line(SCREEN, text, (865, 398), (865, 502), 1)
     pygame.draw.line(SCREEN, text, (915, 398), (915, 502), 1)
 
-    if invent.returnInventLen() != 0:
-        for i in range(0, invent.returnInventLen(), 1):
+    if invent.return_inventory_length() != 0:
+        for i in range(0, invent.return_inventory_length(), 1):
             if i <= 3:
                 y = 400
                 x = i
-            else :
+            else:
                 y = 450
                 x = i - 4
 
-            SCREEN.blit(invent.returnPic(i), (765 + (x * 50), y))
+            SCREEN.blit(invent.return_pic(i), (765 + (x * 50), y))
     pygame.display.update()
 
-def drawScore() :
-    global points
+
+def drawScore():
     pygame.draw.rect(SCREEN, line, (870, 240, 110, 40))
     scoreText = fontObjThirty.render(str(points), True, text, None)
     SCREEN.blit(scoreText, (870, 240))
     pygame.display.update()
 
-def drawTime() :
-    global time
+
+def drawTime():
+
     pygame.draw.rect(SCREEN, line, (850, 240, 130, 40))
     scoreText = fontObjThirty.render(str(time), True, text, None)
     SCREEN.blit(scoreText, (850, 240))
     pygame.display.update()
 
+
 def drawBackground():
     SCREEN.fill(backGround)
 
     pygame.display.update()
+
 
 if __name__ == '__main__':
     main()

@@ -11,6 +11,7 @@ pointsNeeded = 0
 whatLevel = 1
 switchesOn = True
 hasEnemy = False
+points = 0
 
 #Colours
 red         = (200,  40,   0)
@@ -27,3 +28,12 @@ wallLight   = (107,  29,  21)
 wallDark    = ( 61,  17,  13)
 backGround  = ( 22,  10,  87)
 text        = (222, 218, 205)
+
+# Inventory
+player_items = {"red key": "assets/redKey.png",
+         "toy box": "assets/toyBox.png",
+         "socks": "assets/socks.png",
+         "blue key": "assets/blueKey.png",
+         "green key": "assets/greenKey.png",
+         "flashlight": "assets/flashlight.png",
+         }
