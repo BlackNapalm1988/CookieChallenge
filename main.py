@@ -11,11 +11,11 @@ from pygame.sprite import *
 pygame.init()
 
 #Dimensions
-windowWidth = 1000
-windowHeight = 900
+WINDOW_WIDTH = 1000
+WINDOW_HEIGHT = 900
 
-character = pygame.sprite.Group()
-enemySetOne = []
+characters = pygame.sprite.Group()
+enemy_set_one = []
 audioOne = pygame.mixer.Sound('audio/floorCreak.wav')
 audioTwo = pygame.mixer.Sound('audio/legoAudio.wav')
 audioMain = pygame.mixer_music.load('audio/blanket.mp3')
@@ -29,10 +29,10 @@ fontObjThirty = pygame.font.Font('fonts/CreamPeach.ttf', 30)
 fontObjTwenty = pygame.font.Font('fonts/CreamPeach.ttf', 20)
 fontObjThirtyType = pygame.font.Font('fonts/typewriter.ttf', 30)
 
-SCREEN = pygame.display.set_mode((windowWidth, windowHeight))
+SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Quiet')
 
-class mainCharacter(pygame.sprite.Sprite):
+class MainCharacter(pygame.sprite.Sprite):
     def __init__(self):
         self.boardX = 0
         self.boardY = 0
@@ -45,7 +45,7 @@ class mainCharacter(pygame.sprite.Sprite):
     def update(self, centre):
         self.rect.center = centre
 
-class catEnemy():
+class CatEnemy():
     global boardX, boardY, image, positionX, positionY, direction, drawing, change
     def __init__(self):
         characterImage = pygame.image.load("assets/enemyOne.png")
@@ -250,19 +250,19 @@ class Inventory():
         return self.inventPics[self.picIndex[picPosition]]
 
 def main() :
-    global invent, dead, points, enemySetOne, switchesOn, started, won, calculatedTime
+    global invent, dead, points, enemy_set_one, switchesOn, started, won, calculatedTime
     clock = pygame.time.Clock()
 
     won = False
     paused = False
     dead = False
 
-    newCharacter = mainCharacter()
-    newCharacter.rect.x = 50 + (6 * 50)
-    newCharacter.rect.y = 100 + (6 * 50)
-    character.add(newCharacter)
+    new_character = MainCharacter()
+    new_character.rect.x = 50 + (6 * 50)
+    new_character.rect.y = 100 + (6 * 50)
+    characters.add(new_character)
 
-    enemySetOne.append(catEnemy())
+    enemy_set_one.append(CatEnemy())
 
     time_difference = 0
 
@@ -562,57 +562,57 @@ def setEnemy(enemyNum):
             for j in range(0, len(level[i]), 1):
                 if level[i][j] == "E" :
                     counter += 1
-                    enemySetOne[enemyNum].setBoardPosition(j, i)
+                    enemy_set_one[enemyNum].setBoardPosition(j, i)
                     #level[i][j] = "G"
                     enemySavedX = j - savedX
                     enemySavedY = i - savedY
 
         if counter != 0:
-            print(str(len(enemySetOne)))
+            print(str(len(enemy_set_one)))
             hasEnemy = True
 
 def drawCharacter() :
-    character.draw(SCREEN)
+    characters.draw(SCREEN)
     pygame.display.update()
 
 def moveEnemy(enemyNum) :
     enemyDirection(enemyNum)
     enemyPosition(enemyNum)
     drawEnemy(enemyNum)
-    if enemySetOne[enemyNum].getBoardX() == savedX + 6 and enemySetOne[enemyNum].getBoardY() == savedY + 6 :
+    if enemy_set_one[enemyNum].getBoardX() == savedX + 6 and enemy_set_one[enemyNum].getBoardY() == savedY + 6 :
         youDied()
 
 #1 = right, 2 = left, 3 = up, 4 = down
 def drawEnemy(enemyNum) :
     global enemySavedX, enemySavedY
     ###Calculate method
-    enemyX = enemySetOne[enemyNum].getBoardX()
-    enemyY = enemySetOne[enemyNum].getBoardY()
+    enemyX = enemy_set_one[enemyNum].getBoardX()
+    enemyY = enemy_set_one[enemyNum].getBoardY()
 
     tempX = enemyX - savedX
     tempY = enemyY - savedY
 
-    if ((tempX >= 1 and tempX <= 11) and (tempY >= 1 and tempY <= 11)) and enemySetOne[enemyNum].getDrawing() != True :
-        enemySetOne[enemyNum].setDrawing(True)
+    if ((tempX >= 1 and tempX <= 11) and (tempY >= 1 and tempY <= 11)) and enemy_set_one[enemyNum].getDrawing() != True :
+        enemy_set_one[enemyNum].setDrawing(True)
     elif tempX < 0 or tempY < 1 :
-        enemySetOne[enemyNum].setDrawing(False)
-    elif tempX > 11 or tempY > 11 or ((tempX >= 11 or tempX <= 1) and enemySetOne[enemyNum].getPositionX() > 1) or ((tempY >= 11 or tempY <= 1) and enemySetOne[enemyNum].getPositionY() > 1) :
-        enemySetOne[enemyNum].setDrawing(False)
+        enemy_set_one[enemyNum].setDrawing(False)
+    elif tempX > 11 or tempY > 11 or ((tempX >= 11 or tempX <= 1) and enemy_set_one[enemyNum].getPositionX() > 1) or ((tempY >= 11 or tempY <= 1) and enemy_set_one[enemyNum].getPositionY() > 1) :
+        enemy_set_one[enemyNum].setDrawing(False)
     ###
 
-    direction = enemySetOne[enemyNum].getDirection()
+    direction = enemy_set_one[enemyNum].getDirection()
 
     originalX = enemyX - savedX
     originalY = enemyY - savedY
 
-    if enemySetOne[enemyNum].getDrawing() :
+    if enemy_set_one[enemyNum].getDrawing() :
         if direction == 1 :
             drawBlock(originalX, originalY)
             if enemyX != 12 :
                 drawBlock(originalX + 1, originalY)
             if enemyX != 0 :
                 drawBlock(originalX - 1, originalY)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (enemySetOne[enemyNum].getPositionX() + 50 + ((enemyX - savedX) * 50), enemySetOne[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (enemy_set_one[enemyNum].getPositionX() + 50 + ((enemyX - savedX) * 50), enemy_set_one[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
 
         elif direction == 2:
             drawBlock(originalX, originalY)
@@ -620,7 +620,7 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX + 1, originalY)
             if enemyX != 0:
                 drawBlock(originalX - 1, originalY)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 - enemySetOne[enemyNum].getPositionX() + ((enemyX - savedX) * 50), enemySetOne[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 - enemy_set_one[enemyNum].getPositionX() + ((enemyX - savedX) * 50), enemy_set_one[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
 
 
         elif direction == 3:
@@ -629,7 +629,7 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX, originalY + 1)
             if enemyY != 0:
                 drawBlock(originalX, originalY - 1)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 + enemySetOne[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 - enemySetOne[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 + enemy_set_one[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 - enemy_set_one[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
 
         elif direction == 4:
             drawBlock(originalX, originalY)
@@ -637,7 +637,7 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX, originalY + 1)
             if enemyY != 0:
                 drawBlock(originalX, originalY - 1)
-            SCREEN.blit(enemySetOne[enemyNum].getImage(), (50 + enemySetOne[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 + enemySetOne[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 + enemy_set_one[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 + enemy_set_one[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
 
         enemySavedX = originalX
         enemySavedY = originalY
@@ -645,94 +645,94 @@ def drawEnemy(enemyNum) :
         pygame.display.update()
 
 def enemyDirection(enemyNum) :
-    if enemySetOne[enemyNum].getChange() == True :
-        enemySetOne[enemyNum].changeDirection(False)
+    if enemy_set_one[enemyNum].getChange() == True :
+        enemy_set_one[enemyNum].changeDirection(False)
 
-        enemyX = enemySetOne[enemyNum].getBoardX()
-        enemyY = enemySetOne[enemyNum].getBoardY()
+        enemyX = enemy_set_one[enemyNum].getBoardX()
+        enemyY = enemy_set_one[enemyNum].getBoardY()
 
 
         if savedX + 6 > enemyX :
             if level[enemyY][enemyX + 1] == "G" :
-                enemySetOne[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].setDirection(1)
             elif savedY + 6 < enemyY :
                 if level[enemyY - 1][enemyX] == "G" :
-                    enemySetOne[enemyNum].setDirection(3)
+                    enemy_set_one[enemyNum].setDirection(3)
             elif savedY + 6 < enemyY:
                 if level[enemyY + 1][enemyX] == "G" :
-                    enemySetOne[enemyNum].setDirection(4)
+                    enemy_set_one[enemyNum].setDirection(4)
             elif level[enemyY][enemyX - 1] == "G" :
-                enemySetOne[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].setDirection(2)
         elif savedX + 6 < enemyX :
             if level[enemyY][enemyX - 1] == "G":
-                enemySetOne[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].setDirection(2)
             elif savedY + 6 < enemyY:
                 if level[enemyY - 1][enemyX] == "G":
-                    enemySetOne[enemyNum].setDirection(3)
+                    enemy_set_one[enemyNum].setDirection(3)
             elif savedY + 6 < enemyY:
                 if level[enemyY + 1][enemyX] == "G":
-                    enemySetOne[enemyNum].setDirection(4)
+                    enemy_set_one[enemyNum].setDirection(4)
             elif level[enemyY][enemyX + 1] == "G":
-                enemySetOne[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].setDirection(1)
         elif savedY + 6 < enemyY :
             if level[enemyY - 1][enemyX] == "G":
-                enemySetOne[enemyNum].setDirection(3)
+                enemy_set_one[enemyNum].setDirection(3)
             elif level[enemyY][enemyX - 1] == "G":
-                enemySetOne[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].setDirection(2)
             elif level[enemyY][enemyX + 1] == "G":
-                enemySetOne[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].setDirection(1)
             elif level[enemyY + 1][enemyX] == "G":
-                enemySetOne[enemyNum].setDirection(4)
+                enemy_set_one[enemyNum].setDirection(4)
         elif savedY + 6 > enemyY :
             if level[enemyY + 1][enemyX] == "G":
-                enemySetOne[enemyNum].setDirection(4)
+                enemy_set_one[enemyNum].setDirection(4)
             elif level[enemyY][enemyX - 1] == "G":
-                enemySetOne[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].setDirection(2)
             elif level[enemyY][enemyX + 1] == "G":
-                enemySetOne[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].setDirection(1)
             elif level[enemyY - 1][enemyX] == "G":
-                enemySetOne[enemyNum].setDirection(3)
+                enemy_set_one[enemyNum].setDirection(3)
 
 def enemyPosition(enemyNum):
     global dead
-    enemyX = enemySetOne[enemyNum].getBoardX()
-    enemyY = enemySetOne[enemyNum].getBoardY()
+    enemyX = enemy_set_one[enemyNum].getBoardX()
+    enemyY = enemy_set_one[enemyNum].getBoardY()
 
-    posX = enemySetOne[enemyNum].getPositionX()
-    posY = enemySetOne[enemyNum].getPositionY()
+    posX = enemy_set_one[enemyNum].getPositionX()
+    posY = enemy_set_one[enemyNum].getPositionY()
 
 
-    if enemySetOne[enemyNum].getDirection() == 1 :
-        enemySetOne[enemyNum].setXY(posX + 1, posY)
+    if enemy_set_one[enemyNum].getDirection() == 1 :
+        enemy_set_one[enemyNum].setXY(posX + 1, posY)
 
-        if enemySetOne[enemyNum].getPositionX() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX() + 1, enemySetOne[enemyNum].getBoardY())
-            enemySetOne[enemyNum].setXY(0, 0)
-            enemySetOne[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].getPositionX() == 50 :
+            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX() + 1, enemy_set_one[enemyNum].getBoardY())
+            enemy_set_one[enemyNum].setXY(0, 0)
+            enemy_set_one[enemyNum].changeDirection(True)
 
-    elif enemySetOne[enemyNum].getDirection() == 2 :
-        enemySetOne[enemyNum].setXY(posX + 1, posY)
+    elif enemy_set_one[enemyNum].getDirection() == 2 :
+        enemy_set_one[enemyNum].setXY(posX + 1, posY)
 
-        if enemySetOne[enemyNum].getPositionX() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX() - 1, enemySetOne[enemyNum].getBoardY())
-            enemySetOne[enemyNum].setXY(0, 0)
-            enemySetOne[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].getPositionX() == 50 :
+            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX() - 1, enemy_set_one[enemyNum].getBoardY())
+            enemy_set_one[enemyNum].setXY(0, 0)
+            enemy_set_one[enemyNum].changeDirection(True)
 
-    elif enemySetOne[enemyNum].getDirection() == 3 :
-        enemySetOne[enemyNum].setXY(posX, posY + 1)
+    elif enemy_set_one[enemyNum].getDirection() == 3 :
+        enemy_set_one[enemyNum].setXY(posX, posY + 1)
 
-        if enemySetOne[enemyNum].getPositionY() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX(), enemySetOne[enemyNum].getBoardY() - 1)
-            enemySetOne[enemyNum].setXY(0, 0)
-            enemySetOne[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].getPositionY() == 50 :
+            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX(), enemy_set_one[enemyNum].getBoardY() - 1)
+            enemy_set_one[enemyNum].setXY(0, 0)
+            enemy_set_one[enemyNum].changeDirection(True)
 
-    elif enemySetOne[enemyNum].getDirection() == 4 :
-        enemySetOne[enemyNum].setXY(posX, posY + 1)
+    elif enemy_set_one[enemyNum].getDirection() == 4 :
+        enemy_set_one[enemyNum].setXY(posX, posY + 1)
 
-        if enemySetOne[enemyNum].getPositionY() == 50 :
-            enemySetOne[enemyNum].setBoardPosition(enemySetOne[enemyNum].getBoardX(), enemySetOne[enemyNum].getBoardY() + 1)
-            enemySetOne[enemyNum].setXY(0, 0)
-            enemySetOne[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].getPositionY() == 50 :
+            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX(), enemy_set_one[enemyNum].getBoardY() + 1)
+            enemy_set_one[enemyNum].setXY(0, 0)
+            enemy_set_one[enemyNum].changeDirection(True)
 
 #1 = right, 2 = left, 3 = up, 4 = down
 def move(direction) :
@@ -1543,7 +1543,7 @@ def drawBlock(x, y) :
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
 
         if hasEnemy :
-            if j + savedY == enemySetOne[0].getBoardY() - savedY and i + savedX == enemySetOne[0].getBoardX() - savedX :
+            if j + savedY == enemy_set_one[0].getBoardY() - savedY and i + savedX == enemy_set_one[0].getBoardX() - savedX :
                 moveEnemy(0)
 
     else :
