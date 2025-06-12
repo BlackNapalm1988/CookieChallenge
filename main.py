@@ -2,6 +2,7 @@ import pygame
 import random
 import sys
 import time
+from dataclasses import dataclass
 
 from settings import *
 
@@ -46,7 +47,6 @@ class mainCharacter(pygame.sprite.Sprite):
         self.rect.center = centre
 
 class catEnemy():
-    global boardX, boardY, image, positionX, positionY, direction, drawing, change
     def __init__(self):
         characterImage = pygame.image.load("assets/enemyOne.png")
         self.image = pygame.Surface((50, 50))
@@ -99,146 +99,118 @@ class catEnemy():
     def getBoardY(self):
         return self.boardY
 
-class Inventory():
-    global redKey, blueKey, greenKey, rainbowKey, waterBoot, iceSkate, allInvent, inventPics, picIndex, socks, flashlight
+@dataclass
+class Item:
+    name: str
+    filename: str
+
+
+class Inventory:
+    """Track collected items and their images."""
+
+    item_order = [
+        Item("redKey", "redKey.png"),
+        Item("waterBoot", "toyBox.png"),
+        Item("iceSkate", "socks.png"),
+        Item("blueKey", "blueKey.png"),
+        Item("greenKey", "greenKey.png"),
+        Item("socks", "socks.png"),
+        Item("flashlight", "flashlight.png"),
+    ]
 
     def __init__(self):
-        self.redKey = False
-        self.blueKey = False
-        self.greenKey = False
-        self.rainbowKey = False
-        self.waterBoot = False
-        self.iceSkate = False
-        self.socks = False
-        self.flashlight = False
-        self.invNum = 0
+        self.items = {item.name: False for item in self.item_order}
+        self.item_indices = {item.name: idx for idx, item in enumerate(self.item_order)}
         self.allInvent = []
         self.inventPics = []
-        self.setImages()
         self.picIndex = []
+        self.setImages()
 
     def setImages(self):
-        #0
-        image = pygame.image.load("assets/redKey.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #1
-        image = pygame.image.load("assets/toyBox.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #2
-        image = pygame.image.load("assets/socks.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #3
-        image = pygame.image.load("assets/blueKey.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #4
-        image = pygame.image.load("assets/greenKey.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        # 5
-        image = pygame.image.load("assets/socks.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        # 6
-        image = pygame.image.load("assets/flashlight.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
+        for item in self.item_order:
+            image = pygame.image.load(f"assets/{item.filename}")
+            image = pygame.transform.scale(image, (50, 50)).convert_alpha()
+            self.inventPics.append(image)
 
+    def add_item(self, name):
+        """Collect an item."""
+        self.items[name] = True
+        self.allInvent.append(name)
+        self.picIndex.append(self.item_indices[name])
+
+    def lose_item(self, name):
+        """Remove an item from the inventory."""
+        self.allInvent.remove(name)
+        self.picIndex.remove(self.item_indices[name])
+        if name not in self.allInvent:
+            self.items[name] = False
+
+    def has_item(self, name):
+        return self.items[name]
+
+    # Convenience wrappers used throughout the game
     def getRedKey(self):
-        self.redKey = True
-        self.addItem("redKey", 0)
+        self.add_item("redKey")
 
     def loseRedKey(self):
-        self.removeItem("redKey", 0)
-        if self.allInvent.count("redKey") == 0 :
-            self.redKey = False
+        self.lose_item("redKey")
 
     def returnRedKey(self):
-        return self.redKey
+        return self.has_item("redKey")
 
     def getBlueKey(self):
-        self.blueKey = True
-        self.addItem("blueKey", 3)
+        self.add_item("blueKey")
 
     def loseBlueKey(self):
-        self.removeItem("blueKey", 3)
-        if self.allInvent.count("blueKey") == 0 :
-            self.blueKey = False
+        self.lose_item("blueKey")
 
     def returnBlueKey(self):
-        return self.blueKey
+        return self.has_item("blueKey")
 
     def getGreenKey(self):
-        self.greenKey = True
-        self.addItem("greenKey", 4)
+        self.add_item("greenKey")
 
     def loseGreenKey(self):
-        self.removeItem("greenKey", 4)
-        if self.allInvent.count("greenKey") == 0 :
-            self.greenKey = False
+        self.lose_item("greenKey")
 
     def returnGreenKey(self):
-        return self.greenKey
+        return self.has_item("greenKey")
 
     def returnWaterBoot(self):
-        return self.waterBoot
+        return self.has_item("waterBoot")
 
     def getWaterBoot(self):
-        self.waterBoot = True
-        self.addItem("waterBoot", 1)
+        self.add_item("waterBoot")
 
     def loseWaterBoot(self):
-        self.waterBoot = False
-        self.removeItem("waterBoot", 1)
+        self.lose_item("waterBoot")
 
     def returnSocks(self):
-        return self.socks
+        return self.has_item("socks")
 
     def getSocks(self):
-        self.socks = True
-        self.addItem("socks", 5)
+        self.add_item("socks")
 
     def loseSocks(self):
-        self.socks = False
-        self.removeItem("socks", 5)
-
-    def returnSocks(self):
-        return self.socks
+        self.lose_item("socks")
 
     def getFlashlight(self):
-        self.flashlight = True
-        self.addItem("flashlight", 6)
+        self.add_item("flashlight")
 
     def loseFlashlight(self):
-        self.flashlight = False
-        self.removeItem("flashlight", 5)
+        self.lose_item("flashlight")
 
     def returnFlashlight(self):
-        return self.flashlight
+        return self.has_item("flashlight")
 
     def getIceSkate(self):
-        self.iceSkate = True
-        self.addItem("iceSkate", 2)
+        self.add_item("iceSkate")
 
     def loseIceSkate(self):
-        self.iceSkate = False
-        self.removeItem("iceSkate", 2)
+        self.lose_item("iceSkate")
 
     def returnIceSkate(self):
-        return self.iceSkate
-
-    #Not items
-
-    def addItem(self, item, index):
-        self.allInvent.append(item)
-        self.picIndex.append(index)
-
-    def removeItem(self, item, index):
-        self.allInvent.remove(item)
-        self.picIndex.remove(index)
+        return self.has_item("iceSkate")
 
     def getItem(self, index):
         return self.allInvent[index]
@@ -1338,37 +1310,21 @@ def drawHint(hintNum):
     pygame.display.update()
 
 def moveCharacter(direction):
+    """Move the player and redraw the visible board."""
     global savedX, savedY
+    offsets = {1: (1, 0), 2: (-1, 0), 3: (0, -1), 4: (0, 1)}
+    if direction in offsets:
+        dx, dy = offsets[direction]
+        savedX += dx
+        savedY += dy
+
     drawInventory()
-    if direction == 1:
-        savedX += 1
-        for i in range(0, 13, 1):
-            for j in range(0, 13, 1):
-                drawBlock(i, j)
-        drawScore()
-        drawCharacter()
-    if direction == 2:
-        savedX -= 1
-        for i in range(0, 13, 1):
-            for j in range(0, 13, 1):
-                drawBlock(i, j)
-        drawScore()
-        drawCharacter()
-    if direction == 3:
-        savedY -= 1
-        for i in range(0, 13, 1):
-            for j in range(0, 13, 1):
-                drawBlock(i, j)
-        drawScore()
-        drawCharacter()
-    if direction == 4:
-        savedY += 1
-        for i in range(0, 13, 1):
-            for j in range(0, 13, 1):
-                drawBlock(i, j)
-        drawScore()
-        drawCharacter()
-    if hasEnemy :
+    for i in range(13):
+        for j in range(13):
+            drawBlock(i, j)
+    drawScore()
+    drawCharacter()
+    if hasEnemy:
         drawEnemy(0)
 
 def drawBlock(x, y) :
