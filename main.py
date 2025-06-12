@@ -4,6 +4,8 @@ import sys
 import time
 
 from settings import *
+from characters import MainCharacter, CatEnemy
+from inventory_module import Inventory
 
 from pygame.locals import *
 from pygame.sprite import *
@@ -11,11 +13,11 @@ from pygame.sprite import *
 pygame.init()
 
 #Dimensions
+characters = pygame.sprite.Group()
+enemy_set_one = []
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 900
 
-characters = pygame.sprite.Group()
-enemy_set_one = []
 audioOne = pygame.mixer.Sound('audio/floor_creak.wav')
 audioTwo = pygame.mixer.Sound('audio/lego_audio.wav')
 audioMain = pygame.mixer_music.load('audio/blanket.mp3')
@@ -31,220 +33,6 @@ fontObjThirtyType = pygame.font.Font('fonts/typewriter.ttf', 30)
 
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Quiet')
-
-class MainCharacter(pygame.sprite.Sprite):
-    def __init__(self):
-        self.boardX = 0
-        self.boardY = 0
-        super().__init__()
-        characterImage = pygame.image.load("assets/temp_character.png")
-        self.image = pygame.Surface((50, 50))
-        self.image = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
-        self.rect = self.image.get_rect()
-
-    def update(self, centre):
-        self.rect.center = centre
-
-class CatEnemy():
-    global boardX, boardY, image, positionX, positionY, direction, drawing, change
-    def __init__(self):
-        characterImage = pygame.image.load("assets/enemy_one.png")
-        self.image = pygame.Surface((50, 50))
-        self.image = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
-        self.setXY(0,0)
-        self.setDirection(1)
-        self.drawing = False
-        self.positionX = 0
-        self.positionY = 0
-        self.change = False
-
-    def setBoardPosition(self, x, y):
-        self.boardX = x
-        self.boardY = y
-
-    def setXY(self, x, y):
-        self.positionX = x
-        self.positionY = y
-
-    def setDirection(self, _direction):
-        self.direction = _direction
-
-    def setDrawing(self, _drawing):
-        self.drawing = _drawing
-
-    def getImage(self):
-        return self.image
-
-    def getDrawing(self):
-        return self.drawing
-
-    def getDirection(self):
-        return self.direction
-
-    def changeDirection(self, _change):
-        self.change = _change
-
-    def getChange(self):
-        return self.change
-
-    def getPositionX(self):
-        return self.positionX
-
-    def getPositionY(self):
-        return self.positionY
-
-    def getBoardX(self):
-        return self.boardX
-
-    def getBoardY(self):
-        return self.boardY
-
-class Inventory():
-    global redKey, blueKey, greenKey, rainbowKey, waterBoot, iceSkate, allInvent, inventPics, picIndex, socks, flashlight
-
-    def __init__(self):
-        self.redKey = False
-        self.blueKey = False
-        self.greenKey = False
-        self.rainbowKey = False
-        self.waterBoot = False
-        self.iceSkate = False
-        self.socks = False
-        self.flashlight = False
-        self.invNum = 0
-        self.allInvent = []
-        self.inventPics = []
-        self.setImages()
-        self.picIndex = []
-
-    def setImages(self):
-        #0
-        image = pygame.image.load("assets/red_key.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #1
-        image = pygame.image.load("assets/toy_box.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #2
-        image = pygame.image.load("assets/socks.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #3
-        image = pygame.image.load("assets/blue_key.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        #4
-        image = pygame.image.load("assets/green_key.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        # 5
-        image = pygame.image.load("assets/socks.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-        # 6
-        image = pygame.image.load("assets/flashlight.png")
-        image = pygame.transform.scale(image, (50, 50)).convert_alpha()
-        self.inventPics.append(image)
-
-    def getRedKey(self):
-        self.redKey = True
-        self.addItem("redKey", 0)
-
-    def loseRedKey(self):
-        self.removeItem("redKey", 0)
-        if self.allInvent.count("redKey") == 0 :
-            self.redKey = False
-
-    def returnRedKey(self):
-        return self.redKey
-
-    def getBlueKey(self):
-        self.blueKey = True
-        self.addItem("blueKey", 3)
-
-    def loseBlueKey(self):
-        self.removeItem("blueKey", 3)
-        if self.allInvent.count("blueKey") == 0 :
-            self.blueKey = False
-
-    def returnBlueKey(self):
-        return self.blueKey
-
-    def getGreenKey(self):
-        self.greenKey = True
-        self.addItem("greenKey", 4)
-
-    def loseGreenKey(self):
-        self.removeItem("greenKey", 4)
-        if self.allInvent.count("greenKey") == 0 :
-            self.greenKey = False
-
-    def returnGreenKey(self):
-        return self.greenKey
-
-    def returnWaterBoot(self):
-        return self.waterBoot
-
-    def getWaterBoot(self):
-        self.waterBoot = True
-        self.addItem("waterBoot", 1)
-
-    def loseWaterBoot(self):
-        self.waterBoot = False
-        self.removeItem("waterBoot", 1)
-
-    def getSocks(self):
-        self.socks = True
-        self.addItem("socks", 5)
-
-    def loseSocks(self):
-        self.socks = False
-        self.removeItem("socks", 5)
-
-    def returnSocks(self):
-        return self.socks
-
-    def getFlashlight(self):
-        self.flashlight = True
-        self.addItem("flashlight", 6)
-
-    def loseFlashlight(self):
-        self.flashlight = False
-        self.removeItem("flashlight", 6)
-
-    def returnFlashlight(self):
-        return self.flashlight
-
-    def getIceSkate(self):
-        self.iceSkate = True
-        self.addItem("iceSkate", 2)
-
-    def loseIceSkate(self):
-        self.iceSkate = False
-        self.removeItem("iceSkate", 2)
-
-    def returnIceSkate(self):
-        return self.iceSkate
-
-    #Not items
-
-    def addItem(self, item, index):
-        self.allInvent.append(item)
-        self.picIndex.append(index)
-
-    def removeItem(self, item, index):
-        self.allInvent.remove(item)
-        self.picIndex.remove(index)
-
-    def getItem(self, index):
-        return self.allInvent[index]
-
-    def returnInventLen(self):
-        return len(self.allInvent)
-
-    def returnPic(self, picPosition):
-        return self.inventPics[self.picIndex[picPosition]]
 
 def main() :
     global invent, dead, points, enemy_set_one, switchesOn, started, won, calculatedTime
@@ -559,7 +347,7 @@ def setEnemy(enemyNum):
             for j in range(0, len(level[i]), 1):
                 if level[i][j] == "E" :
                     counter += 1
-                    enemy_set_one[enemyNum].setBoardPosition(j, i)
+                    enemy_set_one[enemyNum].set_board_position(j, i)
                     #level[i][j] = "G"
                     enemySavedX = j - savedX
                     enemySavedY = i - savedY
@@ -576,40 +364,40 @@ def moveEnemy(enemyNum) :
     enemyDirection(enemyNum)
     enemyPosition(enemyNum)
     drawEnemy(enemyNum)
-    if enemy_set_one[enemyNum].getBoardX() == savedX + 6 and enemy_set_one[enemyNum].getBoardY() == savedY + 6 :
+    if enemy_set_one[enemyNum].get_board_x() == savedX + 6 and enemy_set_one[enemyNum].get_board_y() == savedY + 6 :
         youDied()
 
 #1 = right, 2 = left, 3 = up, 4 = down
 def drawEnemy(enemyNum) :
     global enemySavedX, enemySavedY
     ###Calculate method
-    enemyX = enemy_set_one[enemyNum].getBoardX()
-    enemyY = enemy_set_one[enemyNum].getBoardY()
+    enemyX = enemy_set_one[enemyNum].get_board_x()
+    enemyY = enemy_set_one[enemyNum].get_board_y()
 
     tempX = enemyX - savedX
     tempY = enemyY - savedY
 
-    if ((tempX >= 1 and tempX <= 11) and (tempY >= 1 and tempY <= 11)) and enemy_set_one[enemyNum].getDrawing() != True :
-        enemy_set_one[enemyNum].setDrawing(True)
+    if ((tempX >= 1 and tempX <= 11) and (tempY >= 1 and tempY <= 11)) and enemy_set_one[enemyNum].get_drawing() != True :
+        enemy_set_one[enemyNum].set_drawing(True)
     elif tempX < 0 or tempY < 1 :
-        enemy_set_one[enemyNum].setDrawing(False)
-    elif tempX > 11 or tempY > 11 or ((tempX >= 11 or tempX <= 1) and enemy_set_one[enemyNum].getPositionX() > 1) or ((tempY >= 11 or tempY <= 1) and enemy_set_one[enemyNum].getPositionY() > 1) :
-        enemy_set_one[enemyNum].setDrawing(False)
+        enemy_set_one[enemyNum].set_drawing(False)
+    elif tempX > 11 or tempY > 11 or ((tempX >= 11 or tempX <= 1) and enemy_set_one[enemyNum].get_position_x() > 1) or ((tempY >= 11 or tempY <= 1) and enemy_set_one[enemyNum].get_position_y() > 1) :
+        enemy_set_one[enemyNum].set_drawing(False)
     ###
 
-    direction = enemy_set_one[enemyNum].getDirection()
+    direction = enemy_set_one[enemyNum].get_direction()
 
     originalX = enemyX - savedX
     originalY = enemyY - savedY
 
-    if enemy_set_one[enemyNum].getDrawing() :
+    if enemy_set_one[enemyNum].get_drawing() :
         if direction == 1 :
             drawBlock(originalX, originalY)
             if enemyX != 12 :
                 drawBlock(originalX + 1, originalY)
             if enemyX != 0 :
                 drawBlock(originalX - 1, originalY)
-            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (enemy_set_one[enemyNum].getPositionX() + 50 + ((enemyX - savedX) * 50), enemy_set_one[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (enemy_set_one[enemyNum].get_position_x() + 50 + ((enemyX - savedX) * 50), enemy_set_one[enemyNum].get_position_y() + 100 + ((enemyY - savedY) * 50)))
 
         elif direction == 2:
             drawBlock(originalX, originalY)
@@ -617,7 +405,7 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX + 1, originalY)
             if enemyX != 0:
                 drawBlock(originalX - 1, originalY)
-            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 - enemy_set_one[enemyNum].getPositionX() + ((enemyX - savedX) * 50), enemy_set_one[enemyNum].getPositionY() + 100 + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 - enemy_set_one[enemyNum].get_position_x() + ((enemyX - savedX) * 50), enemy_set_one[enemyNum].get_position_y() + 100 + ((enemyY - savedY) * 50)))
 
 
         elif direction == 3:
@@ -626,7 +414,7 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX, originalY + 1)
             if enemyY != 0:
                 drawBlock(originalX, originalY - 1)
-            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 + enemy_set_one[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 - enemy_set_one[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 + enemy_set_one[enemyNum].get_position_x() + ((enemyX - savedX) * 50), 100 - enemy_set_one[enemyNum].get_position_y() + ((enemyY - savedY) * 50)))
 
         elif direction == 4:
             drawBlock(originalX, originalY)
@@ -634,7 +422,7 @@ def drawEnemy(enemyNum) :
                 drawBlock(originalX, originalY + 1)
             if enemyY != 0:
                 drawBlock(originalX, originalY - 1)
-            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 + enemy_set_one[enemyNum].getPositionX() + ((enemyX - savedX) * 50), 100 + enemy_set_one[enemyNum].getPositionY() + ((enemyY - savedY) * 50)))
+            SCREEN.blit(enemy_set_one[enemyNum].getImage(), (50 + enemy_set_one[enemyNum].get_position_x() + ((enemyX - savedX) * 50), 100 + enemy_set_one[enemyNum].get_position_y() + ((enemyY - savedY) * 50)))
 
         enemySavedX = originalX
         enemySavedY = originalY
@@ -642,94 +430,94 @@ def drawEnemy(enemyNum) :
         pygame.display.update()
 
 def enemyDirection(enemyNum) :
-    if enemy_set_one[enemyNum].getChange() == True :
-        enemy_set_one[enemyNum].changeDirection(False)
+    if enemy_set_one[enemyNum].get_change() == True :
+        enemy_set_one[enemyNum].change_direction(False)
 
-        enemyX = enemy_set_one[enemyNum].getBoardX()
-        enemyY = enemy_set_one[enemyNum].getBoardY()
+        enemyX = enemy_set_one[enemyNum].get_board_x()
+        enemyY = enemy_set_one[enemyNum].get_board_y()
 
 
         if savedX + 6 > enemyX :
             if level[enemyY][enemyX + 1] == "G" :
-                enemy_set_one[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].set_direction(1)
             elif savedY + 6 < enemyY :
                 if level[enemyY - 1][enemyX] == "G" :
-                    enemy_set_one[enemyNum].setDirection(3)
+                    enemy_set_one[enemyNum].set_direction(3)
             elif savedY + 6 < enemyY:
                 if level[enemyY + 1][enemyX] == "G" :
-                    enemy_set_one[enemyNum].setDirection(4)
+                    enemy_set_one[enemyNum].set_direction(4)
             elif level[enemyY][enemyX - 1] == "G" :
-                enemy_set_one[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].set_direction(2)
         elif savedX + 6 < enemyX :
             if level[enemyY][enemyX - 1] == "G":
-                enemy_set_one[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].set_direction(2)
             elif savedY + 6 < enemyY:
                 if level[enemyY - 1][enemyX] == "G":
-                    enemy_set_one[enemyNum].setDirection(3)
+                    enemy_set_one[enemyNum].set_direction(3)
             elif savedY + 6 < enemyY:
                 if level[enemyY + 1][enemyX] == "G":
-                    enemy_set_one[enemyNum].setDirection(4)
+                    enemy_set_one[enemyNum].set_direction(4)
             elif level[enemyY][enemyX + 1] == "G":
-                enemy_set_one[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].set_direction(1)
         elif savedY + 6 < enemyY :
             if level[enemyY - 1][enemyX] == "G":
-                enemy_set_one[enemyNum].setDirection(3)
+                enemy_set_one[enemyNum].set_direction(3)
             elif level[enemyY][enemyX - 1] == "G":
-                enemy_set_one[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].set_direction(2)
             elif level[enemyY][enemyX + 1] == "G":
-                enemy_set_one[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].set_direction(1)
             elif level[enemyY + 1][enemyX] == "G":
-                enemy_set_one[enemyNum].setDirection(4)
+                enemy_set_one[enemyNum].set_direction(4)
         elif savedY + 6 > enemyY :
             if level[enemyY + 1][enemyX] == "G":
-                enemy_set_one[enemyNum].setDirection(4)
+                enemy_set_one[enemyNum].set_direction(4)
             elif level[enemyY][enemyX - 1] == "G":
-                enemy_set_one[enemyNum].setDirection(2)
+                enemy_set_one[enemyNum].set_direction(2)
             elif level[enemyY][enemyX + 1] == "G":
-                enemy_set_one[enemyNum].setDirection(1)
+                enemy_set_one[enemyNum].set_direction(1)
             elif level[enemyY - 1][enemyX] == "G":
-                enemy_set_one[enemyNum].setDirection(3)
+                enemy_set_one[enemyNum].set_direction(3)
 
 def enemyPosition(enemyNum):
     global dead
-    enemyX = enemy_set_one[enemyNum].getBoardX()
-    enemyY = enemy_set_one[enemyNum].getBoardY()
+    enemyX = enemy_set_one[enemyNum].get_board_x()
+    enemyY = enemy_set_one[enemyNum].get_board_y()
 
-    posX = enemy_set_one[enemyNum].getPositionX()
-    posY = enemy_set_one[enemyNum].getPositionY()
+    posX = enemy_set_one[enemyNum].get_position_x()
+    posY = enemy_set_one[enemyNum].get_position_y()
 
 
-    if enemy_set_one[enemyNum].getDirection() == 1 :
-        enemy_set_one[enemyNum].setXY(posX + 1, posY)
+    if enemy_set_one[enemyNum].get_direction() == 1 :
+        enemy_set_one[enemyNum].set_xy(posX + 1, posY)
 
-        if enemy_set_one[enemyNum].getPositionX() == 50 :
-            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX() + 1, enemy_set_one[enemyNum].getBoardY())
-            enemy_set_one[enemyNum].setXY(0, 0)
-            enemy_set_one[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].get_position_x() == 50 :
+            enemy_set_one[enemyNum].set_board_position(enemy_set_one[enemyNum].get_board_x() + 1, enemy_set_one[enemyNum].get_board_y())
+            enemy_set_one[enemyNum].set_xy(0, 0)
+            enemy_set_one[enemyNum].change_direction(True)
 
-    elif enemy_set_one[enemyNum].getDirection() == 2 :
-        enemy_set_one[enemyNum].setXY(posX + 1, posY)
+    elif enemy_set_one[enemyNum].get_direction() == 2 :
+        enemy_set_one[enemyNum].set_xy(posX + 1, posY)
 
-        if enemy_set_one[enemyNum].getPositionX() == 50 :
-            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX() - 1, enemy_set_one[enemyNum].getBoardY())
-            enemy_set_one[enemyNum].setXY(0, 0)
-            enemy_set_one[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].get_position_x() == 50 :
+            enemy_set_one[enemyNum].set_board_position(enemy_set_one[enemyNum].get_board_x() - 1, enemy_set_one[enemyNum].get_board_y())
+            enemy_set_one[enemyNum].set_xy(0, 0)
+            enemy_set_one[enemyNum].change_direction(True)
 
-    elif enemy_set_one[enemyNum].getDirection() == 3 :
-        enemy_set_one[enemyNum].setXY(posX, posY + 1)
+    elif enemy_set_one[enemyNum].get_direction() == 3 :
+        enemy_set_one[enemyNum].set_xy(posX, posY + 1)
 
-        if enemy_set_one[enemyNum].getPositionY() == 50 :
-            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX(), enemy_set_one[enemyNum].getBoardY() - 1)
-            enemy_set_one[enemyNum].setXY(0, 0)
-            enemy_set_one[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].get_position_y() == 50 :
+            enemy_set_one[enemyNum].set_board_position(enemy_set_one[enemyNum].get_board_x(), enemy_set_one[enemyNum].get_board_y() - 1)
+            enemy_set_one[enemyNum].set_xy(0, 0)
+            enemy_set_one[enemyNum].change_direction(True)
 
-    elif enemy_set_one[enemyNum].getDirection() == 4 :
-        enemy_set_one[enemyNum].setXY(posX, posY + 1)
+    elif enemy_set_one[enemyNum].get_direction() == 4 :
+        enemy_set_one[enemyNum].set_xy(posX, posY + 1)
 
-        if enemy_set_one[enemyNum].getPositionY() == 50 :
-            enemy_set_one[enemyNum].setBoardPosition(enemy_set_one[enemyNum].getBoardX(), enemy_set_one[enemyNum].getBoardY() + 1)
-            enemy_set_one[enemyNum].setXY(0, 0)
-            enemy_set_one[enemyNum].changeDirection(True)
+        if enemy_set_one[enemyNum].get_position_y() == 50 :
+            enemy_set_one[enemyNum].set_board_position(enemy_set_one[enemyNum].get_board_x(), enemy_set_one[enemyNum].get_board_y() + 1)
+            enemy_set_one[enemyNum].set_xy(0, 0)
+            enemy_set_one[enemyNum].change_direction(True)
 
 #1 = right, 2 = left, 3 = up, 4 = down
 def move(direction) :
@@ -772,80 +560,80 @@ def move(direction) :
             #redKey : r
             elif letter == "r" :
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(1)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key() :
                 level[savedY + 6][savedX + 7] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(1)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(1)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 6][savedX + 7] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(1)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(1)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 6][savedX + 7] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(1)
             #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            elif letter == "J" and invent.return_socks() == False :
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(1)
                 pygame.mixer_music.stop()
                 time.sleep(2.5)
                 endGame = True
             #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            elif letter == "J" and invent.return_socks() :
                 moveCharacter(1)
             #waterBoots : j
             elif letter == "j" :
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(1)
             #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            elif letter == "W" and invent.return_water_boot() == False :
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(1)
                 pygame.mixer_music.stop()
                 time.sleep(2.75)
                 endGame = True
             #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            elif letter == "W" and invent.return_water_boot() :
                 level[savedY + 6][savedX + 7] = "G"
                 moveCharacter(1)
             #waterBoots : w
             elif letter == "w" :
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(1)
             # flashlight : F
             elif letter == "F":
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(1)
             #ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False :
+            elif letter == "I" and invent.return_ice_skate() == False :
                 moveCharacter(1)
                 move(1)
             #ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate() :
+            elif letter == "I" and invent.return_ice_skate() :
                 moveCharacter(1)
             #iceSkates : i
             elif letter == "i" :
                 level[savedY + 6][savedX + 7] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(1)
             # cookies : c
             elif letter == "c":
@@ -876,10 +664,10 @@ def move(direction) :
             # flashlight : F
             elif letter == "F":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(2)
             #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            elif letter == "J" and invent.return_socks() == False :
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(2)
                 pygame.mixer_music.stop()
@@ -887,12 +675,12 @@ def move(direction) :
                 endGame = True
                 moveCharacter(2)
             #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            elif letter == "J" and invent.return_socks() :
                 moveCharacter(2)
             #waterBoots : j
             elif letter == "j" :
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(2)
             #f : switch
             elif letter == "f" :
@@ -925,39 +713,39 @@ def move(direction) :
             #redKey : r
             elif letter == "r" :
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(2)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key() :
                 level[savedY + 6][savedX + 5] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(2)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(2)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 6][savedX + 5] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(2)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(2)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 6][savedX + 5] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(2)
             #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            elif letter == "W" and invent.return_water_boot() :
                 level[savedY + 6][savedX + 5] = "G"
                 moveCharacter(2)
             #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            elif letter == "W" and invent.return_water_boot() == False :
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(2)
                 pygame.mixer_music.stop()
@@ -966,19 +754,19 @@ def move(direction) :
             #waterBoots : w
             elif letter == "w" :
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(2)
             # ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False:
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(2)
                 move(2)
             # ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate():
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(2)
             # iceSkates : i
             elif letter == "i":
                 level[savedY + 6][savedX + 5] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(2)
             # cookies : c
             elif letter == "c":
@@ -1013,10 +801,10 @@ def move(direction) :
             # flashlight : F
             elif letter == "F":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(3)
             #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            elif letter == "J" and invent.return_socks() == False :
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(3)
                 pygame.mixer_music.stop()
@@ -1024,12 +812,12 @@ def move(direction) :
                 endGame = True
                 moveCharacter(3)
             #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            elif letter == "J" and invent.return_socks() :
                 moveCharacter(3)
             #waterBoots : j
             elif letter == "j" :
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(3)
             #f : switch
             elif letter == "f" :
@@ -1062,39 +850,39 @@ def move(direction) :
             #redKey : r
             elif letter == "r" :
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(3)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key() :
                 level[savedY + 5][savedX + 6] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(3)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(3)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 5][savedX + 6] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(3)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(3)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 5][savedX + 6] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(3)
             #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            elif letter == "W" and invent.return_water_boot() :
                 level[savedY + 5][savedX + 6] = "G"
                 moveCharacter(3)
             #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            elif letter == "W" and invent.return_water_boot() == False :
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(3)
                 pygame.mixer_music.stop()
@@ -1103,19 +891,19 @@ def move(direction) :
             #waterBoots : w
             elif letter == "w" :
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(3)
             # ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False:
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(3)
                 move(3)
             # ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate():
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(3)
             # iceSkates : i
             elif letter == "i":
                 level[savedY + 5][savedX + 6] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(3)
             # cookies : c
             elif letter == "c":
@@ -1146,7 +934,7 @@ def move(direction) :
             # flashlight : F
             elif letter == "F":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getFlashlight()
+                invent.get_flashlight()
                 moveCharacter(4)
             elif letter == "V" and points == pointsNeeded :
                 moveCharacter(4)
@@ -1163,7 +951,7 @@ def move(direction) :
                 drawInventory()
                 moveCharacter(4)
             #squeaky floor : J : no socks
-            elif letter == "J" and invent.returnSocks() == False :
+            elif letter == "J" and invent.return_socks() == False :
                 pygame.mixer.Channel(0).play(audioOne, loops=0, maxtime=2000)
                 moveCharacter(4)
                 pygame.mixer_music.stop()
@@ -1171,12 +959,12 @@ def move(direction) :
                 endGame = True
                 moveCharacter(4)
             #squeaky floor : J : with socks
-            elif letter == "J" and invent.returnSocks() :
+            elif letter == "J" and invent.return_socks() :
                 moveCharacter(4)
             #waterBoots : j
             elif letter == "j" :
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getSocks()
+                invent.get_socks()
                 moveCharacter(4)
             #f : switch
             elif letter == "f" :
@@ -1209,39 +997,39 @@ def move(direction) :
             #redKey : r
             elif letter == "r" :
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getRedKey()
+                invent.get_red_key()
                 moveCharacter(4)
             #redDoor : R
-            elif letter == "R" and invent.returnRedKey() :
+            elif letter == "R" and invent.return_red_key() :
                 level[savedY + 7][savedX + 6] = "G"
-                invent.loseRedKey()
+                invent.lose_red_key()
                 moveCharacter(4)
             # blueKey : b
             elif letter == "b":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getBlueKey()
+                invent.get_blue_key()
                 moveCharacter(4)
             # blueDoor : B
-            elif letter == "B" and invent.returnBlueKey():
+            elif letter == "B" and invent.return_blue_key():
                 level[savedY + 7][savedX + 6] = "G"
-                invent.loseBlueKey()
+                invent.lose_blue_key()
                 moveCharacter(4)
             # greenKey : g
             elif letter == "g":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getGreenKey()
+                invent.get_green_key()
                 moveCharacter(4)
             # greenDoor : D
-            elif letter == "D" and invent.returnGreenKey():
+            elif letter == "D" and invent.return_green_key():
                 level[savedY + 7][savedX + 6] = "G"
-                invent.loseGreenKey()
+                invent.lose_green_key()
                 moveCharacter(4)
             #water : W : with boots
-            elif letter == "W" and invent.returnWaterBoot() :
+            elif letter == "W" and invent.return_water_boot() :
                 level[savedY + 7][savedX + 6] = "G"
                 moveCharacter(4)
             #water : W : no boots
-            elif letter == "W" and invent.returnWaterBoot() == False :
+            elif letter == "W" and invent.return_water_boot() == False :
                 pygame.mixer.Channel(0).play(audioTwo, loops=0, maxtime=4000)
                 moveCharacter(4)
                 pygame.mixer_music.stop()
@@ -1250,23 +1038,23 @@ def move(direction) :
             #waterBoots : w
             elif letter == "w" :
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getWaterBoot()
+                invent.get_water_boot()
                 moveCharacter(4)
             #ice : I : no skates
             elif letter == "I" :
                 moveCharacter(4)
                 move(4)
             # ice : I : no skates
-            elif letter == "I" and invent.returnIceSkate() == False:
+            elif letter == "I" and invent.return_ice_skate() == False:
                 moveCharacter(4)
                 move(4)
             # ice : I : with skates
-            elif letter == "I" and invent.returnIceSkate():
+            elif letter == "I" and invent.return_ice_skate():
                 moveCharacter(4)
             # iceSkates : i
             elif letter == "i":
                 level[savedY + 7][savedX + 6] = "G"
-                invent.getIceSkate()
+                invent.get_ice_skate()
                 moveCharacter(4)
             # cookies : c
             elif letter == "c":
@@ -1373,7 +1161,7 @@ def drawBlock(x, y) :
     i = x
     testingY = j + savedY
     testingX = i + savedX
-    if (testingY <= 25 or testingY >= 69) or ((j in {5, 6, 7}) and (i in {5, 6, 7}) and invent.returnFlashlight() == True) :
+    if (testingY <= 25 or testingY >= 69) or ((j in {5, 6, 7}) and (i in {5, 6, 7}) and invent.return_flashlight() == True) :
         if level[j + savedY][i + savedX] == "G":
             ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
@@ -1540,7 +1328,7 @@ def drawBlock(x, y) :
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
 
         if hasEnemy :
-            if j + savedY == enemy_set_one[0].getBoardY() - savedY and i + savedX == enemy_set_one[0].getBoardX() - savedX :
+            if j + savedY == enemy_set_one[0].get_board_y() - savedY and i + savedX == enemy_set_one[0].get_board_x() - savedX :
                 moveEnemy(0)
 
     else :
@@ -1597,8 +1385,8 @@ def drawInventory():
     pygame.draw.line(SCREEN, text, (865, 398), (865, 502), 1)
     pygame.draw.line(SCREEN, text, (915, 398), (915, 502), 1)
 
-    if invent.returnInventLen() != 0:
-        for i in range(0, invent.returnInventLen(), 1):
+    if invent.return_invent_len() != 0:
+        for i in range(0, invent.return_invent_len(), 1):
             if i <= 3:
                 y = 400
                 x = i
@@ -1606,7 +1394,7 @@ def drawInventory():
                 y = 450
                 x = i - 4
 
-            SCREEN.blit(invent.returnPic(i), (765 + (x * 50), y))
+            SCREEN.blit(invent.return_pic(i), (765 + (x * 50), y))
     pygame.display.update()
 
 def drawScore() :
