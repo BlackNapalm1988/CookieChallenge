@@ -16,17 +16,17 @@ WINDOW_HEIGHT = 900
 
 characters = pygame.sprite.Group()
 enemy_set_one = []
-audioOne = pygame.mixer.Sound('audio/floorCreak.wav')
-audioTwo = pygame.mixer.Sound('audio/legoAudio.wav')
+audioOne = pygame.mixer.Sound('audio/floor_creak.wav')
+audioTwo = pygame.mixer.Sound('audio/lego_audio.wav')
 audioMain = pygame.mixer_music.load('audio/blanket.mp3')
 pygame.mixer.init(channels = 2)
 
 #Fonts
-fontObjFifty = pygame.font.Font('fonts/CreamPeach.ttf', 50)
-fontObjForty = pygame.font.Font('fonts/CreamPeach.ttf', 40)
-fontObjThreeNine = pygame.font.Font('fonts/CreamPeach.ttf', 37)
-fontObjThirty = pygame.font.Font('fonts/CreamPeach.ttf', 30)
-fontObjTwenty = pygame.font.Font('fonts/CreamPeach.ttf', 20)
+fontObjFifty = pygame.font.Font('fonts/cream_peach.ttf', 50)
+fontObjForty = pygame.font.Font('fonts/cream_peach.ttf', 40)
+fontObjThreeNine = pygame.font.Font('fonts/cream_peach.ttf', 37)
+fontObjThirty = pygame.font.Font('fonts/cream_peach.ttf', 30)
+fontObjTwenty = pygame.font.Font('fonts/cream_peach.ttf', 20)
 fontObjThirtyType = pygame.font.Font('fonts/typewriter.ttf', 30)
 
 SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -490,7 +490,7 @@ def readFile(levelOn):
     global runBefore, level
 
     if whatLevel == 1 :
-        levelOne = open('levels/LevelOne.txt')
+        levelOne = open('levels/level_one.txt')
 
         if runBefore == False :
             for line in levelOne :
@@ -504,7 +504,7 @@ def readFile(levelOn):
                 counter += 1
 
     if whatLevel == 2 :
-        levelTwo = open('levels/LevelTwo.txt')
+        levelTwo = open('levels/level_two.txt')
 
         counter = 0
         for line in levelTwo :
@@ -515,7 +515,7 @@ def readFile(levelOn):
             counter += 1
 
     if whatLevel == 3 :
-        levelThree = open('levels/LevelThree.txt')
+        levelThree = open('levels/level_three.txt')
 
         counter = 0
         for line in levelThree :
