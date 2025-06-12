@@ -37,7 +37,7 @@ class mainCharacter(pygame.sprite.Sprite):
         self.boardX = 0
         self.boardY = 0
         super().__init__()
-        characterImage = pygame.image.load("assets/tempCharacter.png")
+        characterImage = pygame.image.load("assets/temp_character.png")
         self.image = pygame.Surface((50, 50))
         self.image = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
         self.rect = self.image.get_rect()
@@ -48,7 +48,7 @@ class mainCharacter(pygame.sprite.Sprite):
 class catEnemy():
     global boardX, boardY, image, positionX, positionY, direction, drawing, change
     def __init__(self):
-        characterImage = pygame.image.load("assets/enemyOne.png")
+        characterImage = pygame.image.load("assets/enemy_one.png")
         self.image = pygame.Surface((50, 50))
         self.image = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
         self.setXY(0,0)
@@ -119,11 +119,11 @@ class Inventory():
 
     def setImages(self):
         #0
-        image = pygame.image.load("assets/redKey.png")
+        image = pygame.image.load("assets/red_key.png")
         image = pygame.transform.scale(image, (50, 50)).convert_alpha()
         self.inventPics.append(image)
         #1
-        image = pygame.image.load("assets/toyBox.png")
+        image = pygame.image.load("assets/toy_box.png")
         image = pygame.transform.scale(image, (50, 50)).convert_alpha()
         self.inventPics.append(image)
         #2
@@ -131,11 +131,11 @@ class Inventory():
         image = pygame.transform.scale(image, (50, 50)).convert_alpha()
         self.inventPics.append(image)
         #3
-        image = pygame.image.load("assets/blueKey.png")
+        image = pygame.image.load("assets/blue_key.png")
         image = pygame.transform.scale(image, (50, 50)).convert_alpha()
         self.inventPics.append(image)
         #4
-        image = pygame.image.load("assets/greenKey.png")
+        image = pygame.image.load("assets/green_key.png")
         image = pygame.transform.scale(image, (50, 50)).convert_alpha()
         self.inventPics.append(image)
         # 5
@@ -1378,27 +1378,27 @@ def drawBlock(x, y) :
     testingX = i + savedX
     if (testingY <= 25 or testingY >= 69) or ((j in {5, 6, 7}) and (i in {5, 6, 7}) and invent.returnFlashlight() == True) :
         if level[j + savedY][i + savedX] == "G":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # stealing block : T
         if level[j + savedY][i + savedX] == "T":
-            ground = pygame.image.load("assets/takeBlock.png")
+            ground = pygame.image.load("assets/take_block.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # end door : V
         if level[j + savedY][i + savedX] == "V" :
-            ground = pygame.image.load("assets/endDoor.png")
+            ground = pygame.image.load("assets/end_door.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # squeaky floor : J
         if level[j + savedY][i + savedX] == "J" :
-            ground = pygame.image.load("assets/squeakySteps.png")
+            ground = pygame.image.load("assets/squeaky_steps.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # socks : j
         if level[j + savedY][i + savedX] == "j":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             keyImage = pygame.image.load("assets/socks.png")
@@ -1407,43 +1407,43 @@ def drawBlock(x, y) :
         # switch : f
         if level[j + savedY][i + savedX] == "f":
             if switchesOn :
-                ground = pygame.image.load("assets/switchOn.png")
+                ground = pygame.image.load("assets/switch_on.png")
                 ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
                 SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             else :
-                ground = pygame.image.load("assets/switchOff.png")
+                ground = pygame.image.load("assets/switch_off.png")
                 ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
                 SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # right : d
         if level[j + savedY][i + savedX] == "d":
-            ground = pygame.image.load("assets/rightFloor.png")
+            ground = pygame.image.load("assets/right_floor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # left : a
         if level[j + savedY][i + savedX] == "a":
-            ground = pygame.image.load("assets/leftFloor.png")
+            ground = pygame.image.load("assets/left_floor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # up : q
         if level[j + savedY][i + savedX] == "q":
-            ground = pygame.image.load("assets/upFloor.png")
+            ground = pygame.image.load("assets/up_floor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # down : s
         if level[j + savedY][i + savedX] == "s":
-            ground = pygame.image.load("assets/downFloor.png")
+            ground = pygame.image.load("assets/down_floor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # hint : 1, 2, 3, 4, etc.
         if level[j + savedY][i + savedX] in {"1", "2", "3", "4", "5", "6"} :
-            ground = pygame.image.load("assets/hintBlock.png").convert_alpha()
+            ground = pygame.image.load("assets/hint_block.png").convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # enemy : E
         if level[j + savedY][i + savedX] == "E":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            characterImage = pygame.image.load("assets/enemyOne.png")
+            characterImage = pygame.image.load("assets/enemy_one.png")
             updateImage = pygame.transform.scale(characterImage, (50, 50)).convert_alpha()
             SCREEN.blit(updateImage, (50 + (i * 50), 100 + (j * 50)))
             level[j + savedY][i + savedX] = "G"
@@ -1454,41 +1454,41 @@ def drawBlock(x, y) :
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # redDoor : R
         if level[j + savedY][i + savedX] == "R":
-            ground = pygame.image.load("assets/redDoor.png")
+            ground = pygame.image.load("assets/red_door.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # blueDoor : B
         if level[j + savedY][i + savedX] == "B" :
-            ground = pygame.image.load("assets/blueDoor.png")
+            ground = pygame.image.load("assets/blue_door.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # greenDoor : D
         if level[j + savedY][i + savedX] == "D":
-            ground = pygame.image.load("assets/greenDoor.png")
+            ground = pygame.image.load("assets/green_door.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # redKey : r
         if level[j + savedY][i + savedX] == "r":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            keyImage = pygame.image.load("assets/redKey.png")
+            keyImage = pygame.image.load("assets/red_key.png")
             keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # blueKey : b
         if level[j + savedY][i + savedX] == "b":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            keyImage = pygame.image.load("assets/blueKey.png")
+            keyImage = pygame.image.load("assets/blue_key.png")
             keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # greenKey : g
         if level[j + savedY][i + savedX] == "g":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            keyImage = pygame.image.load("assets/greenKey.png")
+            keyImage = pygame.image.load("assets/green_key.png")
             keyImage = pygame.transform.scale(keyImage, (50, 50)).convert_alpha()
             SCREEN.blit(keyImage, (50 + (i * 50), 100 + (j * 50)))
         # legos : W
@@ -1498,20 +1498,20 @@ def drawBlock(x, y) :
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # toyBox : w
         if level[j + savedY][i + savedX] == "w":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            image = pygame.image.load("assets/toyBox.png")
+            image = pygame.image.load("assets/toy_box.png")
             image = pygame.transform.scale(image, (50, 50)).convert_alpha()
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
         # ice : I
         if level[j + savedY][i + savedX] == "I":
-            ground = pygame.image.load("assets/slickFloor.png")
+            ground = pygame.image.load("assets/slick_floor.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
         # iceSkate : i
         if level[j + savedY][i + savedX] == "i":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             image = pygame.image.load("assets/iceSkate.png")
@@ -1519,7 +1519,7 @@ def drawBlock(x, y) :
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
         # cookie : c
         if level[j + savedY][i + savedX] == "c":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             image = pygame.image.load("assets/cookie.png")
@@ -1527,7 +1527,7 @@ def drawBlock(x, y) :
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
         # flashlight : F
         if level[j + savedY][i + savedX] == "F":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
             image = pygame.image.load("assets/flashlight.png")
@@ -1535,10 +1535,10 @@ def drawBlock(x, y) :
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
         # enemy : E
         if level[j + savedY][i + savedX] == "E":
-            ground = pygame.image.load("assets/groundTwo.png")
+            ground = pygame.image.load("assets/ground_two.png")
             ground = pygame.transform.scale(ground, (50, 50)).convert_alpha()
             SCREEN.blit(ground, (50 + (i * 50), 100 + (j * 50)))
-            image = pygame.image.load("assets/enemyOne.png")
+            image = pygame.image.load("assets/enemy_one.png")
             image = pygame.transform.scale(image, (50, 50)).convert_alpha()
             SCREEN.blit(image, (50 + (i * 50), 100 + (j * 50)))
 
