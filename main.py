@@ -194,9 +194,6 @@ class Inventory():
         self.waterBoot = False
         self.removeItem("waterBoot", 1)
 
-    def returnSocks(self):
-        return self.socks
-
     def getSocks(self):
         self.socks = True
         self.addItem("socks", 5)
@@ -214,7 +211,7 @@ class Inventory():
 
     def loseFlashlight(self):
         self.flashlight = False
-        self.removeItem("flashlight", 5)
+        self.removeItem("flashlight", 6)
 
     def returnFlashlight(self):
         return self.flashlight
